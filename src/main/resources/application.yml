@@ -1,1 +1,4 @@
 app.site.url-pattern: 'https://vk.com/search?c[age_from]=29&c[age_to]=30&c[city]=1&c[country]=1&c[name]=1&c[per_page]=40&c[q]={reservist_name}&c[section]=people'
+logging:
+  level:
+    net.shyshkin: debug
