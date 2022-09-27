@@ -29,8 +29,8 @@ public class WebClientFetchService implements FetchService {
         return webClient
                 .get().uri(uri)
                 .exchangeToMono(clientResponse -> {
-                    log.debug("Status code: {}", clientResponse.statusCode());
-                    log.debug("Headers as HttpHeaders: {}", clientResponse.headers().asHttpHeaders());
+//                    log.debug("Status code: {}", clientResponse.statusCode());
+//                    log.debug("Headers as HttpHeaders: {}", clientResponse.headers().asHttpHeaders());
                     return clientResponse.bodyToMono(String.class);
                 })
                 .doOnNext(body -> log.debug("Response body: {}", body))
