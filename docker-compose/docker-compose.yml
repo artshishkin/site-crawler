@@ -1,0 +1,9 @@
+version: "3.8"
+
+name: site-crawler
+
+services:
+  fetch-service:
+    image: artarkatesoft/art-site-crawler
+    ports:
+      - '8080:8080'
