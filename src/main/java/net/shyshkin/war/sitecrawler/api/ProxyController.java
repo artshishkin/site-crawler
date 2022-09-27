@@ -13,7 +13,7 @@ public class ProxyController {
 
     private final FetchService fetchService;
 
-    @GetMapping
+    @GetMapping("/search")
     public Mono<String> getContent(@RequestParam("name") String reservistName) {
         return fetchService.fetchPage(reservistName);
     }

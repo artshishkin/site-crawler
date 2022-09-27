@@ -1,11 +1,11 @@
 ### Get encoded
-GET http://ddos.shyshkin.org:8080/?name=%D0%A1%D0%9B%D0%90%D0%91%D0%90%D0%93%D0%A3%D0%97%20%D0%A1%D0%95%D0%A0%D0%93%D0%95%D0%99
+GET http://ddos.shyshkin.org:8080/search?name=%D0%A1%D0%9B%D0%90%D0%91%D0%90%D0%93%D0%A3%D0%97%20%D0%A1%D0%95%D0%A0%D0%93%D0%95%D0%99
 Accept: application/json
 
 ### Get decoded
-GET http://ddos.shyshkin.org:8080/?name=СКАЧКОВ СЕРГЕЙ
+GET http://ddos.shyshkin.org:8080/search?name=СКАЧКОВ СЕРГЕЙ
 Accept: application/json
 
-### Get decoded
-GET http://ddos.shyshkin.org:8080/?name=СМИРНОВ СЕРГЕЙ
+### Search 2 decoded
+GET http://ddos.shyshkin.org:8080/search?name=СМИРНОВ СЕРГЕЙ
 Accept: application/json
