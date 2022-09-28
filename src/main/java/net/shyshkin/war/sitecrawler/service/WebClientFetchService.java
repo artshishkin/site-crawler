@@ -3,6 +3,7 @@ package net.shyshkin.war.sitecrawler.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.sitecrawler.config.FetchConfigData;
+import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriUtils;
@@ -35,6 +36,11 @@ public class WebClientFetchService implements FetchService {
                 })
                 .doOnNext(body -> log.debug("Response body: {}", body))
                 .log();
+    }
+
+    @Override
+    public Mono<String> fetchSearchPage(String reservistName, SearchRequest searchRequest) {
+        throw new RuntimeException("Not implemented yet");
     }
 
     @Override

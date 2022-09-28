@@ -10,5 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class FetchConfigData {
     private String baseUrl;
     private String searchPattern;
+    private String searchPatternAge;
     private String userPattern;
 }

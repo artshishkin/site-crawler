@@ -1,6 +1,7 @@
 package net.shyshkin.war.sitecrawler.api;
 
 import lombok.RequiredArgsConstructor;
+import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import net.shyshkin.war.sitecrawler.service.FetchService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ public class ProxyController {
     @GetMapping(value = "/search", produces = MediaType.TEXT_HTML_VALUE)
     public Mono<String> getContent(@RequestParam("name") String reservistName) {
         return fetchService.fetchSearchPage(reservistName);
+    }
+
+    @GetMapping(value = "/search", produces = MediaType.TEXT_HTML_VALUE, params = "bday")
+    public Mono<String> getContent(@RequestParam("name") String reservistName, SearchRequest searchRequest) {
+        return fetchService.fetchSearchPage(reservistName, searchRequest);
     }
 
     @GetMapping(value = "/users/{id}", produces = MediaType.TEXT_HTML_VALUE)
