@@ -40,7 +40,28 @@ public class WebClientFetchService implements FetchService {
 
     @Override
     public Mono<String> fetchSearchPage(String reservistName, SearchRequest searchRequest) {
-        throw new RuntimeException("Not implemented yet");
+        log.debug("Searching for {} with {}", reservistName, searchRequest);
+        return webClient
+                .get().uri(uriBuilder -> uriBuilder
+                        .path(fetchConfigData.getSearchPattern())
+                        .queryParam("c[q]", reservistName)
+                        .queryParam("c[bday]", searchRequest.getBday())
+                        .queryParam("c[bmonth]", searchRequest.getBmonth())
+                        .queryParam("c[byear]", searchRequest.getByear())
+                        .queryParam("c[city]", 1)
+                        .queryParam("c[country]", 1)
+                        .queryParam("c[per_page]", 40)
+                        .queryParam("c[name]", 1)
+                        .queryParam("c[section]", "people")
+                        .build()
+                )
+                .exchangeToMono(clientResponse -> {
+                    log.debug("Status code: {}", clientResponse.statusCode());
+                    log.debug("Headers as HttpHeaders: {}", clientResponse.headers().asHttpHeaders());
+                    return clientResponse.bodyToMono(String.class);
+                })
+                .doOnNext(body -> log.debug("Response body: {}", body))
+                .log();
     }
 
     @Override
