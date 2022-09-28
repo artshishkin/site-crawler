@@ -48,9 +48,10 @@ class ProxyControllerTest {
     void searchWithBirthdayParameters_shouldCallFetchServiceWithBirthdayParameters() {
 
         //given
-        given(fetchService.fetchSearchPage(anyString(), any(SearchRequest.class)))
+        given(fetchService.fetchSearchPage(any(SearchRequest.class)))
                 .willReturn(Mono.just("Request was called"));
         SearchRequest expectedSearchRequest = SearchRequest.builder()
+                .name("ART")
                 .bday(7)
                 .bmonth(2)
                 .byear(1983)
@@ -67,6 +68,6 @@ class ProxyControllerTest {
                 .expectBody(String.class)
                 .isEqualTo("Request was called");
 
-        then(fetchService).should().fetchSearchPage(eq("ART"), eq(expectedSearchRequest));
+        then(fetchService).should().fetchSearchPage(eq(expectedSearchRequest));
     }
 }

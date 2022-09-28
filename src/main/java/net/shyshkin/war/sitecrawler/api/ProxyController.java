@@ -22,8 +22,8 @@ public class ProxyController {
     }
 
     @GetMapping(value = "/search", produces = MediaType.TEXT_HTML_VALUE, params = "bday")
-    public Mono<String> getContent(@RequestParam("name") String reservistName, SearchRequest searchRequest) {
-        return fetchService.fetchSearchPage(reservistName, searchRequest);
+    public Mono<String> getContent(SearchRequest searchRequest) {
+        return fetchService.fetchSearchPage(searchRequest);
     }
 
     @GetMapping(value = "/users/{id}", produces = MediaType.TEXT_HTML_VALUE)

@@ -63,13 +63,14 @@ class WebClientFetchServiceIT {
         //given
         String searchName = "Art";
         SearchRequest request = SearchRequest.builder()
+                .name(searchName)
                 .bday(29)
                 .bmonth(3)
                 .byear(1992)
                 .build();
 
         //when
-        Mono<String> fetchSearchPage = fetchService.fetchSearchPage(searchName, request);
+        Mono<String> fetchSearchPage = fetchService.fetchSearchPage(request);
 
         //then
         StepVerifier.create(fetchSearchPage)
@@ -83,13 +84,14 @@ class WebClientFetchServiceIT {
         //given
         String searchName = "СКАЧКОВ СЕРГЕЙ";
         SearchRequest request = SearchRequest.builder()
+                .name(searchName)
                 .bday(29)
                 .bmonth(3)
                 .byear(1992)
                 .build();
 
         //when
-        Mono<String> fetchSearchPage = fetchService.fetchSearchPage(searchName, request);
+        Mono<String> fetchSearchPage = fetchService.fetchSearchPage(request);
 
         //then
         StepVerifier.create(fetchSearchPage)

@@ -39,12 +39,12 @@ public class WebClientFetchService implements FetchService {
     }
 
     @Override
-    public Mono<String> fetchSearchPage(String reservistName, SearchRequest searchRequest) {
-        log.debug("Searching for {} with {}", reservistName, searchRequest);
+    public Mono<String> fetchSearchPage(SearchRequest searchRequest) {
+        log.debug("Searching for {} with {}", searchRequest.getName(), searchRequest);
         return webClient
                 .get().uri(uriBuilder -> uriBuilder
                         .path(fetchConfigData.getSearchPattern())
-                        .queryParam("c[q]", reservistName)
+                        .queryParam("c[q]", searchRequest.getName())
                         .queryParam("c[bday]", searchRequest.getBday())
                         .queryParam("c[bmonth]", searchRequest.getBmonth())
                         .queryParam("c[byear]", searchRequest.getByear())

@@ -7,7 +7,7 @@ public interface FetchService {
 
     Mono<String> fetchSearchPage(String reservistName);
 
-    Mono<String> fetchSearchPage(String reservistName, SearchRequest searchRequest);
+    Mono<String> fetchSearchPage(SearchRequest searchRequest);
 
     Mono<String> fetchUserPage(String userId);
 }

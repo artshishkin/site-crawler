@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SearchRequest {
+
+    private String name;
     private Integer bday;
     private Integer bmonth;
     private Integer byear;
