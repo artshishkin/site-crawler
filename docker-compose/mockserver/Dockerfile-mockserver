@@ -1,0 +1,6 @@
+ARG MOCKSERVER_VERSION
+FROM mockserver/mockserver:${MOCKSERVER_VERSION}
+
+ENV MOCKSERVER_INITIALIZATION_JSON_PATH /config/mock-init.json
+
+COPY ./data-mockserver/ /config/

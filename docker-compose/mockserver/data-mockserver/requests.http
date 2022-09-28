@@ -1,0 +1,4 @@
+### Mock endpoint - emulate search request
+GET http://localhost:1080/search?c[age_from]=29&c[age_to]=30&c[city]=1&c[country]=1&c[name]=1&c[per_page]=40&c[q]=ART&c[section]=people
+Accept: application/json
+

@@ -1,0 +1,2 @@
+MOCKSERVER_VERSION: 5.14.0
+# When change version you must duplicate them into env-versions.yaml for correct badges

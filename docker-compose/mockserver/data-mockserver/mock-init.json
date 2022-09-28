@@ -1,0 +1,11 @@
+[
+  {
+    "httpRequest": {
+      "path": "/search"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": "Was called"
+    }
+  }
+]
