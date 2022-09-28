@@ -1,15 +1,19 @@
 ### Get encoded
-GET http://ddos.shyshkin.org:8080/search?name=%D0%A1%D0%9B%D0%90%D0%91%D0%90%D0%93%D0%A3%D0%97%20%D0%A1%D0%95%D0%A0%D0%93%D0%95%D0%99
+GET {{host}}/search?name=%D0%A1%D0%9B%D0%90%D0%91%D0%90%D0%93%D0%A3%D0%97%20%D0%A1%D0%95%D0%A0%D0%93%D0%95%D0%99
 Accept: text/html
 
 ### Get decoded
-GET http://ddos.shyshkin.org:8080/search?name=СКАЧКОВ СЕРГЕЙ
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ
 Accept: text/html
 
 ### Search 2 decoded
-GET http://ddos.shyshkin.org:8080/search?name=СМИРНОВ СЕРГЕЙ
+GET {{host}}/search?name=СМИРНОВ СЕРГЕЙ
+Accept: text/html
+
+### Search user with birthdate parameters
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
 Accept: text/html
 
 ### Get user by id
-GET http://ddos.shyshkin.org:8080/users/id207667411
+GET {{host}}/users/id207667411
 Accept: text/html

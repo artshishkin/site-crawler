@@ -1,6 +1,87 @@
 [
   {
     "httpRequest": {
+      "path": "/search",
+      "queryStringParameters": {
+        "c[section]": [
+          "people"
+        ],
+        "c[q]": [
+          "СКАЧКОВ СЕРГЕЙ"
+        ],
+        "c[per_page]": [
+          "40"
+        ],
+        "c[name]": [
+          "1"
+        ],
+        "c[country]": [
+          "1"
+        ],
+        "c[city]": [
+          "1"
+        ],
+        "c[byear]": [
+          "1992"
+        ],
+        "c[bmonth]": [
+          "3"
+        ],
+        "c[bday]": [
+          "29"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": "Correct search for СКАЧКОВ СЕРГЕЙ was made",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "values": [
+            "application/json"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/search",
+      "queryStringParameters": {
+        "c[section]": [
+          "people"
+        ],
+        "c[per_page]": [
+          "40"
+        ],
+        "c[name]": [
+          "1"
+        ],
+        "c[country]": [
+          "1"
+        ],
+        "c[city]": [
+          "1"
+        ],
+        "c[byear]": [
+          "1992"
+        ],
+        "c[bmonth]": [
+          "3"
+        ],
+        "c[bday]": [
+          "29"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": "Correct search for ANY was made"
+    }
+  },
+  {
+    "httpRequest": {
       "path": "/search"
     },
     "httpResponse": {
