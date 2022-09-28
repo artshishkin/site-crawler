@@ -8,8 +8,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     @Bean
-    WebClient webClient() {
+    WebClient webClient(FetchConfigData fetchConfigData) {
         return WebClient.builder()
+                .baseUrl(fetchConfigData.getBaseUrl())
                 .build();
     }
 

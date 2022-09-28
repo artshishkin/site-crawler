@@ -18,6 +18,7 @@
         <docker-maven-plugin.version>0.40.2</docker-maven-plugin.version>
         <docker.image.prefix>artarkatesoft</docker.image.prefix>
         <docker.image.name>art-${project.artifactId}</docker.image.name>
+        <spring.boot.version>${parent.version}</spring.boot.version>
     </properties>
     <dependencies>
         <dependency>
@@ -27,6 +28,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -61,6 +66,25 @@
                         <enabled>true</enabled>
                         <includeLayerTools>true</includeLayerTools>
                     </layers>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                            <version>${spring.boot.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 

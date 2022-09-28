@@ -4,5 +4,7 @@ import reactor.core.publisher.Mono;
 
 public interface FetchService {
 
-    Mono<String> fetchPage(String reservistName);
+    Mono<String> fetchSearchPage(String reservistName);
+
+    Mono<String> fetchUserPage(String userId);
 }
