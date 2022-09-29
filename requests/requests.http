@@ -17,3 +17,7 @@ Accept: text/html
 ### Get user by id
 GET {{host}}/users/id207667411
 Accept: text/html
+
+### Get user by id through VK API
+GET {{host}}/users/207667411
+Accept: application/json
