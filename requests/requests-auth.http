@@ -1,0 +1,3 @@
+### Get access token
+GET {{host}}/vk/auth/token?client_id=514...3&client_secret=Tc0...Y79
+Accept: application/json
