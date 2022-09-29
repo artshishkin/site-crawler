@@ -2,6 +2,7 @@ package net.shyshkin.war.sitecrawler.api;
 
 import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import net.shyshkin.war.sitecrawler.service.FetchService;
+import net.shyshkin.war.sitecrawler.service.VkApiService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
@@ -22,6 +23,9 @@ class ProxyControllerTest {
 
     @MockBean
     FetchService fetchService;
+
+    @MockBean
+    VkApiService vkApiService;
 
     @Test
     void search_shouldCallFetchService() {

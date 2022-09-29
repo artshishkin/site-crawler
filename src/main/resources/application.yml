@@ -6,7 +6,10 @@ app.fetch:
   user-pattern: '/{user_id}?act=info'
 app.vk-api:
   auth-url: 'https://oauth.vk.com/access_token'
+  base-url: 'https://api.vk.com/method'
+  user-endpoint: '/users.get'
   api-version: '5.194'
+  access-token: ${VK_ACCESS_TOKEN}
 
 logging:
   level:
@@ -21,3 +24,5 @@ app.fetch:
   base-url: 'http://localhost:1080'
 app.vk-api:
   auth-url: 'http://localhost:1080/access_token'
+  base-url: 'http://localhost:1080/method'
+  access-token: 'super-secret-access-token'

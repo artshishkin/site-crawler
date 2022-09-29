@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class VkApiConfigData {
     private String authUrl;
     private String apiVersion;
+    private String accessToken;
     private String baseUrl;
     private String searchEndpoint;
     private String userEndpoint;
