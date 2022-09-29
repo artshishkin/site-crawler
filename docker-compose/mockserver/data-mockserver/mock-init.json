@@ -1,6 +1,17 @@
 [
   {
     "httpRequest": {
+      "path": "/health"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "status": "OK"
+      }
+    }
+  },
+  {
+    "httpRequest": {
       "path": "/search",
       "queryStringParameters": {
         "c[section]": [
@@ -87,6 +98,36 @@
     "httpResponse": {
       "statusCode": 200,
       "body": "Was called"
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/access_token",
+      "queryStringParameters": {
+        "client_id": [
+          "123"
+        ],
+        "client_secret": [
+          "12345678"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "access_token": "some_long_token"
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/access_token"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "access_token": "to_view_string_parameters"
+      }
     }
   }
 ]
