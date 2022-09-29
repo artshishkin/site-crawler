@@ -129,5 +129,29 @@
         "access_token": "to_view_string_parameters"
       }
     }
+  },
+  {
+    "httpRequest": {
+      "path": "/method/users.get",
+      "queryStringParameters": {
+        "access_token": [
+          "super-secret-access-token"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "response": [
+          {
+            "id": 123,
+            "first_name": "Art",
+            "last_name": "Shyshkin",
+            "can_access_closed": true,
+            "is_closed": false
+          }
+        ]
+      }
+    }
   }
 ]

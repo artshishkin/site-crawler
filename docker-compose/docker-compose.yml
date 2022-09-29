@@ -10,3 +10,4 @@ services:
     environment:
       "logging.level.net.shyshkin": debug
       "app.fetch.base-url": 'https://m.vk.com'
+      VK_ACCESS_TOKEN: ${VK_ACCESS_TOKEN}
