@@ -16,4 +16,11 @@ public class WebClientConfig {
                 .build();
     }
 
+    @Bean
+    WebClient vkAuthClient(VkApiConfigData vkApiConfigData) {
+        return WebClient.builder()
+                .baseUrl(vkApiConfigData.getAuthUrl())
+                .build();
+    }
+
 }
