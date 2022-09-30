@@ -19,23 +19,19 @@ public class VkApiServiceImpl implements VkApiService {
 
     @Override
     public Mono<VkUser> getUser(Long userId) {
-        return vkApiClient.get()
-                .uri(builder -> builder
-                        .path(configData.getUserEndpoint())
-                        .queryParam("user_id", userId)
-                        .build())
-                .exchangeToMono(response -> {
-                    log.debug("Status code: {}", response.statusCode());
-                    log.debug("Headers: {}", response.headers().asHttpHeaders());
-                    return response.bodyToMono(VkUserResponse.class)
-                            .flatMapIterable(VkUserResponse::getResponse)
-                            .next();
-                })
+        return getUser(userId, VkUserResponse.class)
+                .flatMapIterable(VkUserResponse::getResponse)
+                .next()
                 .doOnNext(vkUser -> log.debug("User: {}", vkUser));
     }
 
     @Override
     public Mono<String> getUserJson(Long userId) {
+        return getUser(userId, String.class)
+                .doOnNext(jsonResponse -> log.debug("User Response: {}", jsonResponse));
+    }
+
+    private <T> Mono<T> getUser(Long userId, Class<T> T) {
         return vkApiClient.get()
                 .uri(builder -> builder
                         .path(configData.getUserEndpoint())
@@ -44,8 +40,8 @@ public class VkApiServiceImpl implements VkApiService {
                 .exchangeToMono(response -> {
                     log.debug("Status code: {}", response.statusCode());
                     log.debug("Headers: {}", response.headers().asHttpHeaders());
-                    return response.bodyToMono(String.class);
-                })
-                .doOnNext(vkUser -> log.debug("User Response: {}", vkUser));
+                    return response.bodyToMono(T);
+                });
     }
+
 }
