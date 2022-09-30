@@ -153,5 +153,91 @@
         ]
       }
     }
+  },
+  {
+    "httpRequest": {
+      "path": "/method/users.search",
+      "queryStringParameters": {
+        "access_token": [
+          "super-secret-access-token"
+        ],
+        "birth_day": [
+          "29"
+        ],
+        "birth_month": [
+          "3"
+        ],
+        "birth_year": [
+          "1992"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "response": {
+          "count": 2,
+          "items": [
+            {
+              "id": 565294160,
+              "city": {
+                "id": 600,
+                "title": "Балашов"
+              },
+              "country": {
+                "id": 1,
+                "title": "Россия"
+              },
+              "photo": "https://vk.com/images/camera_50.png",
+              "last_seen": {
+                "platform": 4,
+                "time": 1663670885
+              },
+              "home_town": "",
+              "track_code": "d67785d39DN-wcboukNgG7rI-EaFrFBH6bpu3A5srM4fnQs8gpaTWmian9XuTDQagi88pF-pOEnvuW7cAArepw",
+              "screen_name": "id565294160",
+              "first_name": "Сергей",
+              "last_name": "Скачков",
+              "can_access_closed": true,
+              "is_closed": false
+            },
+            {
+              "id": 207667411,
+              "city": {
+                "id": 1,
+                "title": "Москва"
+              },
+              "country": {
+                "id": 1,
+                "title": "Россия"
+              },
+              "photo": "https://sun6-21.u...0,339,339&ava=1",
+              "last_seen": {
+                "platform": 7,
+                "time": 1370691677
+              },
+              "home_town": "донской",
+              "track_code": "e1ec50a61BlpQZxNt46U0p8PwtmY5q8lnxenIVgcO1MxVk9tz76zcChHzHDmjJHWq-sDPEPjxyuZFKchVnpJOg",
+              "screen_name": "id207667411",
+              "first_name": "Сергей",
+              "last_name": "Скачков",
+              "can_access_closed": true,
+              "is_closed": false
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
+      "path": "/method/users.search"
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "error": "endpoint /method/users.search was called but something wrong"
+      }
+    }
   }
 ]
