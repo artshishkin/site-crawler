@@ -30,6 +30,7 @@ public abstract class CommonAbstractTest {
                     .collect(Collectors.toList())
     )
             .withOptions("--env-file " + ENV_FILE_PATH)
+            .withBuild(true)
             .withEnv("MOCKSERVER_HOST_PORT", "0")
             .withExposedService("mockserver", 1080, Wait.forHttp("/health"));
 
