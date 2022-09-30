@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -42,6 +43,20 @@ public class ProxyController {
     @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE, params = "debug")
     public Mono<String> getUserDebug(@PathVariable("id") Long userId) {
         return vkApiService.getUserJson(userId);
+    }
+
+    @GetMapping(
+            value = "/search",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_EVENT_STREAM_VALUE},
+            params = "bday"
+    )
+    public Flux<VkUser> searchUser(SearchRequest searchRequest) {
+        return vkApiService.searchUsers(searchRequest);
+    }
+
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE, params = {"bday", "debug"})
+    public Mono<String> searchUserDebug(SearchRequest searchRequest) {
+        return vkApiService.searchUsersJson(searchRequest);
     }
 
 }

@@ -22,6 +22,18 @@ Accept: text/html
 GET {{host}}/users/207667411
 Accept: application/json
 
-### Get user by id through VK API
+### Get user by id through VK API - full response
 GET {{host}}/users/207667411?debug
+Accept: application/json
+
+### Search for user through VK API - application/json
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
+Accept: application/json
+
+### Search for user through VK API - text/event-stream
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
+Accept: text/event-stream
+
+### Search for user through VK API - debug full response
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&debug
 Accept: application/json

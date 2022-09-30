@@ -5,12 +5,16 @@ import net.shyshkin.war.sitecrawler.dto.VkUser;
 import net.shyshkin.war.sitecrawler.service.FetchService;
 import net.shyshkin.war.sitecrawler.service.VkApiService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -144,4 +148,70 @@ class ProxyControllerTest {
         then(vkApiService).should().getUserJson(eq(12345678L));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_EVENT_STREAM_VALUE
+    })
+    void searchUser_withAcceptJsonOrEvent_shouldCallVkApiService(String mediaTypeString) {
+
+        //given
+        MediaType mediaType = MediaType.valueOf(mediaTypeString);
+        VkUser mockUser = new VkUser();
+        mockUser.setId(12345678L);
+        mockUser.setFirstName("Art");
+        mockUser.setLastName("Shyshkin");
+        SearchRequest expectedRequest = SearchRequest.builder()
+                .name("Art")
+                .bday(7)
+                .bmonth(2)
+                .byear(1983)
+                .build();
+        given(vkApiService.searchUsers(any(SearchRequest.class)))
+                .willReturn(Flux.just(mockUser));
+
+        //when
+        Flux<VkUser> userFlux = webTestClient
+                .get().uri("/search?name=Art&bday=7&bmonth=2&byear=1983")
+                .accept(mediaType)
+                .exchange()
+
+                //then
+                .expectStatus().isOk()
+                .returnResult(VkUser.class)
+                .getResponseBody();
+
+        StepVerifier.create(userFlux)
+                .expectNext(mockUser)
+                .verifyComplete();
+
+        then(vkApiService).should().searchUsers(eq(expectedRequest));
+    }
+
+    @Test
+    void searchUser_withAcceptJson_andParameterDebug_shouldCallVkApiService_fullJson() {
+
+        //given
+        SearchRequest expectedRequest = SearchRequest.builder()
+                .name("Art")
+                .bday(7)
+                .bmonth(2)
+                .byear(1983)
+                .build();
+        String mockResponse = "{\"response\": \"mock-response\"}";
+        given(vkApiService.searchUsersJson(any(SearchRequest.class)))
+                .willReturn(Mono.just(mockResponse));
+
+        //when
+        webTestClient
+                .get().uri("/search?name=Art&bday=7&bmonth=2&byear=1983&debug")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+
+                //then
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .isEqualTo(mockResponse);
+
+        then(vkApiService).should().searchUsersJson(eq(expectedRequest));
+    }
 }
