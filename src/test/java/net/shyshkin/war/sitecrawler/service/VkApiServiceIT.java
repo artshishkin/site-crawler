@@ -7,8 +7,7 @@ import net.shyshkin.war.sitecrawler.common.CommonAbstractTest;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -16,6 +15,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Slf4j
+@TestPropertySource(properties = {
+        "app.vk-api.base-url=${MOCKSERVER_URL}/method"
+})
 class VkApiServiceIT extends CommonAbstractTest {
 
     @Autowired
@@ -67,17 +69,6 @@ class VkApiServiceIT extends CommonAbstractTest {
                         })
                 )
                 .verifyComplete();
-    }
-
-    @DynamicPropertySource
-    static void mockserverProperties(DynamicPropertyRegistry registry) {
-        registry.add("app.vk-api.base-url",
-                () -> String.format(
-                        "http://%s:%s/method",
-                        composeContainer.getServiceHost("mockserver", 1080),
-                        composeContainer.getServicePort("mockserver", 1080)
-                )
-        );
     }
 
 }

@@ -6,12 +6,14 @@ import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @Slf4j
+@TestPropertySource(properties = {
+        "app.fetch.base-url=${MOCKSERVER_URL}"
+})
 class WebClientFetchServiceIT extends CommonAbstractTest {
 
     @Autowired
@@ -72,17 +74,6 @@ class WebClientFetchServiceIT extends CommonAbstractTest {
         StepVerifier.create(fetchSearchPage)
                 .expectNext("Correct search for СКАЧКОВ СЕРГЕЙ was made")
                 .verifyComplete();
-    }
-
-    @DynamicPropertySource
-    static void mockserverProperties(DynamicPropertyRegistry registry) {
-        registry.add("app.fetch.base-url",
-                () -> String.format(
-                        "http://%s:%s",
-                        composeContainer.getServiceHost("mockserver", 1080),
-                        composeContainer.getServicePort("mockserver", 1080)
-                )
-        );
     }
 
 }

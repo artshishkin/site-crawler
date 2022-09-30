@@ -1,15 +1,16 @@
 package net.shyshkin.war.sitecrawler.common;
 
 import lombok.extern.slf4j.Slf4j;
+import net.shyshkin.war.sitecrawler.util.VersionUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.DockerComposeContainer;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.utility.MountableFile;
 
 @Slf4j
 @Testcontainers
@@ -17,25 +18,28 @@ import java.util.stream.Collectors;
 @ActiveProfiles("mock")
 public abstract class CommonAbstractTest {
 
-    private static final String[] COMPOSE_FILES_PATHS = {
-            "docker-compose/mockserver/common.yml",
-            "docker-compose/mockserver/mock-server.yml"
-    };
+    private static final String MOCKSERVER_CONFIG_DIR_PATH = "docker-compose/mockserver/data-mockserver/mock-init.json";
 
-    private static final String ENV_FILE_PATH = ".env";
-
-    static protected DockerComposeContainer<?> composeContainer = new DockerComposeContainer<>(
-            Arrays.stream(COMPOSE_FILES_PATHS)
-                    .map(path -> Paths.get(path).toAbsolutePath().normalize().toFile())
-                    .collect(Collectors.toList())
-    )
-            .withOptions("--env-file " + ENV_FILE_PATH)
-            .withBuild(true)
-            .withEnv("MOCKSERVER_HOST_PORT", "0")
-            .withExposedService("mockserver", 1080, Wait.forHttp("/health"));
+    static protected GenericContainer<?> mockserver = new GenericContainer<>(DockerImageName.parse("mockserver/mockserver")
+            .withTag(VersionUtil.getVersion("MOCKSERVER_VERSION")))
+            .withCopyFileToContainer(MountableFile.forHostPath(MOCKSERVER_CONFIG_DIR_PATH), "/config/mock-init.json")
+            .withEnv("MOCKSERVER_INITIALIZATION_JSON_PATH", "/config/mock-init.json")
+            .withExposedPorts(1080)
+            .waitingFor(Wait.forHttp("/health"));
 
     static {
-        composeContainer.start();
+        mockserver.start();
+    }
+
+    @DynamicPropertySource
+    static void mockserverProperties(DynamicPropertyRegistry registry) {
+        registry.add("MOCKSERVER_URL",
+                () -> String.format(
+                        "http://%s:%s",
+                        mockserver.getHost(),
+                        mockserver.getMappedPort(1080)
+                )
+        );
     }
 
 }

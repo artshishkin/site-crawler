@@ -6,11 +6,13 @@ import net.shyshkin.war.sitecrawler.dto.ClientCredentials;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.TestPropertySource;
 import reactor.test.StepVerifier;
 
 @Slf4j
+@TestPropertySource(properties = {
+        "app.vk-api.auth-url=${MOCKSERVER_URL}/access_token"
+})
 class VkAuthTestServiceIT extends CommonAbstractTest {
 
     @Autowired
@@ -32,17 +34,6 @@ class VkAuthTestServiceIT extends CommonAbstractTest {
         StepVerifier.create(accessTokenMono)
                 .expectNextMatches(token -> "some_long_token" .equals(token.getAccessToken()))
                 .verifyComplete();
-    }
-
-    @DynamicPropertySource
-    static void mockserverProperties(DynamicPropertyRegistry registry) {
-        registry.add("app.vk-api.auth-url",
-                () -> String.format(
-                        "http://%s:%s/access_token",
-                        composeContainer.getServiceHost("mockserver", 1080),
-                        composeContainer.getServicePort("mockserver", 1080)
-                )
-        );
     }
 
 }
