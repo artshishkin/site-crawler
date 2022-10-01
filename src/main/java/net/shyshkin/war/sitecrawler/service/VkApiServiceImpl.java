@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -53,6 +55,7 @@ public class VkApiServiceImpl implements VkApiService {
         return getCitiesCount()
                 .flatMapMany(count -> Flux.range(0, count / REQUEST_CITIES_MAX_SIZE + 1))
                 .map(pageIndex -> PageRequest.of(pageIndex, REQUEST_CITIES_MAX_SIZE))
+                .delayElements(Duration.ofMillis(350L)) //max 3 req/sec
                 .flatMap(this::getCities);
     }
 
