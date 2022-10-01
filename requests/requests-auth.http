@@ -1,3 +1,9 @@
 ### Get access token
 GET {{host}}/vk/auth/token?client_id=514...3&client_secret=Tc0...Y79
 Accept: application/json
+
+### Get authorization code (provide correct client_id and insert into web browser)
+https://oauth.vk.com/authorize?client_id=51...043&display=page&redirect_uri=http://ddos.shyshkin.org:8080/callback&scope=friends&response_type=code&v=5.194&state=123456
+
+### Get access token in authorization code grand type flow - insert code received previously
+https://oauth.vk.com/access_token?client_id=514...43&client_secret=Tc0M...79&redirect_uri=http://ddos.shyshkin.org:8080/callback&code=2f8422a4d4927f174d
