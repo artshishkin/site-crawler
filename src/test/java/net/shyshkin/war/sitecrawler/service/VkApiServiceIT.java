@@ -8,6 +8,7 @@ import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestPropertySource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -149,7 +150,7 @@ class VkApiServiceIT extends CommonAbstractTest {
         AtomicInteger counter = new AtomicInteger();
 
         //when
-        var cityFlux = vkApiService.getCities();
+        var cityFlux = vkApiService.getCities(Pageable.ofSize(1000));
 
         //then
         StepVerifier.create(cityFlux)
@@ -171,7 +172,7 @@ class VkApiServiceIT extends CommonAbstractTest {
     void getCitiesJson() {
 
         //when
-        var jsonMono = vkApiService.getCitiesJson();
+        var jsonMono = vkApiService.getCitiesJson(Pageable.ofSize(1000));
 
         //then
         StepVerifier.create(jsonMono)

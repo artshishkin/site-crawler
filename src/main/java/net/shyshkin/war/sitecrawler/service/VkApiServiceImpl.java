@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.sitecrawler.config.VkApiConfigData;
 import net.shyshkin.war.sitecrawler.dto.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -46,17 +47,17 @@ public class VkApiServiceImpl implements VkApiService {
     }
 
     @Override
-    public Flux<VkCity> getCities() {
+    public Flux<VkCity> getCities(Pageable pageable) {
         log.debug("Getting cities...");
-        return getCities(VkCitiesResponse.class)
+        return getCities(pageable, VkCitiesResponse.class)
                 .map(VkCitiesResponse::getResponse)
                 .flatMapIterable(VkCitiesResponse.CitiesResponse::getItems);
     }
 
     @Override
-    public Mono<String> getCitiesJson() {
+    public Mono<String> getCitiesJson(Pageable pageable) {
         log.debug("Getting cities full JSON...");
-        return getCities(String.class);
+        return getCities(pageable, String.class);
     }
 
     private <T> Mono<T> getUser(Long userId, Class<T> T) {
@@ -93,13 +94,16 @@ public class VkApiServiceImpl implements VkApiService {
                 });
     }
 
-    private <T> Mono<T> getCities(Class<T> T) {
+    private <T> Mono<T> getCities(Pageable pageable, Class<T> T) {
+        if (pageable.getPageSize() <= 0 || pageable.getPageSize() > 1000)
+            throw new IllegalArgumentException("Page size must be positive and less then 1000");
         return vkApiClient.get()
                 .uri(builder -> builder
                         .path(configData.getCitiesEndpoint())
                         .queryParam("country_id", 1)
                         .queryParam("need_all", 1)
-                        .queryParam("count", 1000)
+                        .queryParam("count", pageable.getPageSize())
+                        .queryParam("offset", pageable.getOffset())
                         .build())
                 .exchangeToMono(response -> {
                     log.debug("Status code: {}", response.statusCode());

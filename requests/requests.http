@@ -39,14 +39,14 @@ GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
 Accept: application/json
 
 ### Get cities through VK API - application/json
-GET {{host}}/cities
+GET {{host}}/cities?page=0&size=3
 Accept: application/json
 
 ### Get cities through VK API - text/event-stream
-GET {{host}}/cities
+GET {{host}}/cities?page=157
 Accept: text/event-stream
 
 ### Get cities through VK API - debug full response
-GET {{host}}/cities?debug
+GET {{host}}/cities?debug&page=15760&size=10
 Accept: application/json
 

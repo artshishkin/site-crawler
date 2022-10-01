@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
@@ -229,7 +230,7 @@ class ProxyControllerTest {
         mockCity.setTitle("Moscow");
         mockCity.setRegion("Mordor");
         mockCity.setArea("BullShit");
-        given(vkApiService.getCities())
+        given(vkApiService.getCities(any(Pageable.class)))
                 .willReturn(Flux.just(mockCity));
 
         //when
@@ -247,7 +248,7 @@ class ProxyControllerTest {
                 .expectNext(mockCity)
                 .verifyComplete();
 
-        then(vkApiService).should().getCities();
+        then(vkApiService).should().getCities(eq(Pageable.ofSize(1000)));
     }
 
     @Test
@@ -255,7 +256,7 @@ class ProxyControllerTest {
 
         //given
         String mockResponse = "{\"resp\":\"some resp\"}";
-        given(vkApiService.getCitiesJson())
+        given(vkApiService.getCitiesJson(any(Pageable.class)))
                 .willReturn(Mono.just(mockResponse));
 
         //when
@@ -269,7 +270,7 @@ class ProxyControllerTest {
                 .expectBody(String.class)
                 .isEqualTo(mockResponse);
 
-        then(vkApiService).should().getCitiesJson();
+        then(vkApiService).should().getCitiesJson(eq(Pageable.ofSize(1000)));
     }
 
 }

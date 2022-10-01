@@ -6,6 +6,8 @@ import net.shyshkin.war.sitecrawler.dto.VkCity;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
 import net.shyshkin.war.sitecrawler.service.FetchService;
 import net.shyshkin.war.sitecrawler.service.VkApiService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,8 +66,8 @@ public class ProxyController {
             value = "/cities",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_EVENT_STREAM_VALUE}
     )
-    public Flux<VkCity> getCities() {
-        return vkApiService.getCities();
+    public Flux<VkCity> getCities(@PageableDefault(size = 1000) Pageable pageable) {
+        return vkApiService.getCities(pageable);
     }
 
     @GetMapping(
@@ -73,8 +75,8 @@ public class ProxyController {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             params = {"debug"}
     )
-    public Mono<String> getCitiesDebug() {
-        return vkApiService.getCitiesJson();
+    public Mono<String> getCitiesDebug(@PageableDefault(size = 1000) Pageable pageable) {
+        return vkApiService.getCitiesJson(pageable);
     }
 
 }
