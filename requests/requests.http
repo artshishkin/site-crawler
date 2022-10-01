@@ -50,3 +50,6 @@ Accept: text/event-stream
 GET {{host}}/cities?debug&page=15760&size=10
 Accept: application/json
 
+### Get ALL cities through VK API - text/event-stream
+GET {{host}}/cities/all
+Accept: text/event-stream

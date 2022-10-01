@@ -252,7 +252,7 @@ class ProxyControllerTest {
     }
 
     @Test
-    void getCities_withAcceptJsonOrEvent_shouldCallVkApiService_fullJson() {
+    void getCities_withAcceptJson_shouldCallVkApiService_fullJson() {
 
         //given
         String mockResponse = "{\"resp\":\"some resp\"}";
@@ -271,6 +271,32 @@ class ProxyControllerTest {
                 .isEqualTo(mockResponse);
 
         then(vkApiService).should().getCitiesJson(eq(Pageable.ofSize(1000)));
+    }
+
+    @Test
+    void getAllCities_withAcceptEvent_shouldCallVkApiService() {
+
+        //given
+        var mockCity = new VkCity();
+        given(vkApiService.getCities())
+                .willReturn(Flux.just(mockCity));
+
+        //when
+        Flux<VkCity> cityFlux = webTestClient
+                .get().uri("/cities/all")
+                .accept(MediaType.TEXT_EVENT_STREAM)
+                .exchange()
+
+                //then
+                .expectStatus().isOk()
+                .returnResult(VkCity.class)
+                .getResponseBody();
+
+        StepVerifier.create(cityFlux)
+                .expectNext(mockCity)
+                .verifyComplete();
+
+        then(vkApiService).should().getCities();
     }
 
     @Test

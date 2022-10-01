@@ -80,6 +80,14 @@ public class ProxyController {
     }
 
     @GetMapping(
+            value = "/cities/all",
+            produces = {MediaType.TEXT_EVENT_STREAM_VALUE}
+    )
+    public Flux<VkCity> getAllCities() {
+        return vkApiService.getCities();
+    }
+
+    @GetMapping(
             value = "/cities/count",
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )

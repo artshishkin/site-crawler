@@ -17,6 +17,8 @@ public interface VkApiService {
 
     Mono<String> searchUsersJson(SearchRequest searchRequest);
 
+    Flux<VkCity> getCities();
+
     Flux<VkCity> getCities(Pageable pageable);
 
     Mono<String> getCitiesJson(Pageable pageable);

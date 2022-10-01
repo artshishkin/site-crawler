@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.sitecrawler.config.VkApiConfigData;
 import net.shyshkin.war.sitecrawler.dto.*;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class VkApiServiceImpl implements VkApiService {
 
+    private static final int REQUEST_CITIES_MAX_SIZE = 1000;
     private final WebClient vkApiClient;
     private final VkApiConfigData configData;
 
@@ -44,6 +46,14 @@ public class VkApiServiceImpl implements VkApiService {
     public Mono<String> searchUsersJson(SearchRequest searchRequest) {
         return searchUsers(searchRequest, String.class)
                 .doOnNext(jsonResponse -> log.debug("Search User Response: {}", jsonResponse));
+    }
+
+    @Override
+    public Flux<VkCity> getCities() {
+        return getCitiesCount()
+                .flatMapMany(count -> Flux.range(0, count / REQUEST_CITIES_MAX_SIZE + 1))
+                .map(pageIndex -> PageRequest.of(pageIndex, REQUEST_CITIES_MAX_SIZE))
+                .flatMap(this::getCities);
     }
 
     @Override
@@ -103,7 +113,7 @@ public class VkApiServiceImpl implements VkApiService {
     }
 
     private <T> Mono<T> getCities(Pageable pageable, Class<T> T) {
-        if (pageable.getPageSize() <= 0 || pageable.getPageSize() > 1000)
+        if (pageable.getPageSize() <= 0 || pageable.getPageSize() > REQUEST_CITIES_MAX_SIZE)
             throw new IllegalArgumentException("Page size must be positive and less then 1000");
         return vkApiClient.get()
                 .uri(builder -> builder

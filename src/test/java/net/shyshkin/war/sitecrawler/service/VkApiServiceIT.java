@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.sitecrawler.common.CommonAbstractTest;
 import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -151,6 +152,33 @@ class VkApiServiceIT extends CommonAbstractTest {
 
         //when
         var cityFlux = vkApiService.getCities(Pageable.ofSize(1000));
+
+        //then
+        StepVerifier.create(cityFlux)
+                .thenConsumeWhile(
+                        vkCity -> true,
+                        vkCity -> assertAll(
+                                () -> assertThat(vkCity)
+                                        .isNotNull()
+//                                        .hasNoNullFieldsOrProperties()
+                                ,
+                                counter::incrementAndGet
+                        )
+                )
+                .verifyComplete();
+        assertThat(counter.get()).isEqualTo(expectedSize);
+    }
+
+    @Test
+    @DisplayName("Requesting all the cities should call VK API multiple time")
+    void getAllCities() {
+
+        //given
+        int expectedSize = 100 * (157601 / 1000 + 1);
+        AtomicInteger counter = new AtomicInteger();
+
+        //when
+        var cityFlux = vkApiService.getCities();
 
         //then
         StepVerifier.create(cityFlux)
