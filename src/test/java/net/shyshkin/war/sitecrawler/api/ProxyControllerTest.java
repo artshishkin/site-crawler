@@ -1,6 +1,7 @@
 package net.shyshkin.war.sitecrawler.api;
 
 import net.shyshkin.war.sitecrawler.dto.SearchRequest;
+import net.shyshkin.war.sitecrawler.dto.VkCity;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
 import net.shyshkin.war.sitecrawler.service.FetchService;
 import net.shyshkin.war.sitecrawler.service.VkApiService;
@@ -214,4 +215,61 @@ class ProxyControllerTest {
 
         then(vkApiService).should().searchUsersJson(eq(expectedRequest));
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_EVENT_STREAM_VALUE
+    })
+    void getCities_withAcceptJsonOrEvent_shouldCallVkApiService(String mediaTypeString) {
+
+        //given
+        MediaType mediaType = MediaType.valueOf(mediaTypeString);
+        var mockCity = new VkCity();
+        mockCity.setId(12345678);
+        mockCity.setTitle("Moscow");
+        mockCity.setRegion("Mordor");
+        mockCity.setArea("BullShit");
+        given(vkApiService.getCities())
+                .willReturn(Flux.just(mockCity));
+
+        //when
+        Flux<VkCity> cityFlux = webTestClient
+                .get().uri("/cities")
+                .accept(mediaType)
+                .exchange()
+
+                //then
+                .expectStatus().isOk()
+                .returnResult(VkCity.class)
+                .getResponseBody();
+
+        StepVerifier.create(cityFlux)
+                .expectNext(mockCity)
+                .verifyComplete();
+
+        then(vkApiService).should().getCities();
+    }
+
+    @Test
+    void getCities_withAcceptJsonOrEvent_shouldCallVkApiService_fullJson() {
+
+        //given
+        String mockResponse = "{\"resp\":\"some resp\"}";
+        given(vkApiService.getCitiesJson())
+                .willReturn(Mono.just(mockResponse));
+
+        //when
+        webTestClient
+                .get().uri("/cities?debug")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+
+                //then
+                .expectStatus().isOk()
+                .expectBody(String.class)
+                .isEqualTo(mockResponse);
+
+        then(vkApiService).should().getCitiesJson();
+    }
+
 }

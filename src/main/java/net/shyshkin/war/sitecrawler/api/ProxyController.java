@@ -2,6 +2,7 @@ package net.shyshkin.war.sitecrawler.api;
 
 import lombok.RequiredArgsConstructor;
 import net.shyshkin.war.sitecrawler.dto.SearchRequest;
+import net.shyshkin.war.sitecrawler.dto.VkCity;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
 import net.shyshkin.war.sitecrawler.service.FetchService;
 import net.shyshkin.war.sitecrawler.service.VkApiService;
@@ -57,6 +58,23 @@ public class ProxyController {
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE, params = {"bday", "debug"})
     public Mono<String> searchUserDebug(SearchRequest searchRequest) {
         return vkApiService.searchUsersJson(searchRequest);
+    }
+
+    @GetMapping(
+            value = "/cities",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_EVENT_STREAM_VALUE}
+    )
+    public Flux<VkCity> getCities() {
+        return vkApiService.getCities();
+    }
+
+    @GetMapping(
+            value = "/cities",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            params = {"debug"}
+    )
+    public Mono<String> getCitiesDebug() {
+        return vkApiService.getCitiesJson();
     }
 
 }

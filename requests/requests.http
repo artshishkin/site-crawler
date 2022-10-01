@@ -37,3 +37,16 @@ Accept: text/event-stream
 ### Search for user through VK API - debug full response
 GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&debug
 Accept: application/json
+
+### Get cities through VK API - application/json
+GET {{host}}/cities
+Accept: application/json
+
+### Get cities through VK API - text/event-stream
+GET {{host}}/cities
+Accept: text/event-stream
+
+### Get cities through VK API - debug full response
+GET {{host}}/cities?debug
+Accept: application/json
+
