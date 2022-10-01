@@ -99,7 +99,7 @@ public class VkApiServiceImpl implements VkApiService {
                         .path(configData.getCitiesEndpoint())
                         .queryParam("country_id", 1)
                         .queryParam("need_all", 1)
-                        .queryParam("count", Integer.MAX_VALUE)
+                        .queryParam("count", 1000)
                         .build())
                 .exchangeToMono(response -> {
                     log.debug("Status code: {}", response.statusCode());
