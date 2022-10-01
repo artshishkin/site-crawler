@@ -53,6 +53,7 @@ public class VkApiServiceImpl implements VkApiService {
                 .uri(builder -> builder
                         .path(configData.getUserEndpoint())
                         .queryParam("user_id", userId)
+                        .queryParam("fields", configData.getFields())
                         .build())
                 .exchangeToMono(response -> {
                     log.debug("Status code: {}", response.statusCode());
@@ -72,6 +73,7 @@ public class VkApiServiceImpl implements VkApiService {
                         .queryParam("birth_day", searchRequest.getBday())
                         .queryParam("birth_month", searchRequest.getBmonth())
                         .queryParam("birth_year", searchRequest.getByear())
+                        .queryParam("fields", configData.getFields())
                         .build())
                 .exchangeToMono(response -> {
                     log.debug("Status code: {}", response.statusCode());
