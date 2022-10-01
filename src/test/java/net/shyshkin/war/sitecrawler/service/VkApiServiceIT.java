@@ -13,12 +13,15 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @Slf4j
 @TestPropertySource(properties = {
-        "app.vk-api.base-url=${MOCKSERVER_URL}/method"
+        "app.vk-api.base-url=${MOCKSERVER_URL}/method",
+        "logging.level.org.springframework.web.reactive.function.client=debug"
 })
 class VkApiServiceIT extends CommonAbstractTest {
 
@@ -132,6 +135,61 @@ class VkApiServiceIT extends CommonAbstractTest {
                                     () -> assertThat(jsonNode.at("/response/items/1/id").asLong()).isEqualTo(207667411L),
                                     () -> assertThat(jsonNode.at("/response/items/1/first_name").asText()).isEqualTo("Сергей"),
                                     () -> assertThat(jsonNode.at("/response/items/1/last_name").asText()).isEqualTo("Скачков")
+                            );
+                        })
+                )
+                .verifyComplete();
+    }
+
+    @Test
+    void getCities() {
+
+        //given
+        int expectedSize = 100;
+        AtomicInteger counter = new AtomicInteger();
+
+        //when
+        var cityFlux = vkApiService.getCities();
+
+        //then
+        StepVerifier.create(cityFlux)
+                .thenConsumeWhile(
+                        vkCity -> true,
+                        vkCity -> assertAll(
+                                () -> assertThat(vkCity)
+                                        .isNotNull()
+//                                        .hasNoNullFieldsOrProperties()
+                                ,
+                                counter::incrementAndGet
+                        )
+                )
+                .verifyComplete();
+        assertThat(counter.get()).isEqualTo(expectedSize);
+    }
+
+    @Test
+    void getCitiesJson() {
+
+        //when
+        var jsonMono = vkApiService.getCitiesJson();
+
+        //then
+        StepVerifier.create(jsonMono)
+                .consumeNextWith(citiesResp -> assertThat(citiesResp)
+                        .isNotNull()
+                        .satisfies(jsonString -> {
+//                            log.debug("Response from server:\n{}", jsonString);
+                            JsonNode jsonNode = objectMapper.readValue(jsonString, JsonNode.class);
+                            assertAll(
+                                    () -> assertThat(jsonNode.at("/response/count").asInt()).isEqualTo(157601),
+                                    () -> assertThat(jsonNode.at("/response/items/0/id").asLong()).isEqualTo(5487461L),
+                                    () -> assertThat(jsonNode.at("/response/items/0/title").asText()).isEqualTo("0 км"),
+                                    () -> assertThat(jsonNode.at("/response/items/0/area").asText()).isEqualTo("Надымский район район"),
+                                    () -> assertThat(jsonNode.at("/response/items/0/region").asText()).isEqualTo("Ямало-Ненецкий автономный округ АО"),
+                                    () -> assertThat(jsonNode.at("/response/items/99/id").asLong()).isEqualTo(1081023L),
+                                    () -> assertThat(jsonNode.at("/response/items/99/title").asText()).isEqualTo("10-й год Октября"),
+                                    () -> assertThat(jsonNode.at("/response/items/99/area").asText()).isEqualTo("Михайловский район район"),
+                                    () -> assertThat(jsonNode.at("/response/items/99/region").asText()).isEqualTo("Рязанская область область")
                             );
                         })
                 )

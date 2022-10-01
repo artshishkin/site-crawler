@@ -14,5 +14,6 @@ public class VkApiConfigData {
     private String baseUrl;
     private String searchEndpoint;
     private String userEndpoint;
+    private String citiesEndpoint;
     private String fields;
 }

@@ -7,5 +7,7 @@ public class VkCity {
 
     private Integer id;
     private String title;
+    private String area;
+    private String region;
 
 }
