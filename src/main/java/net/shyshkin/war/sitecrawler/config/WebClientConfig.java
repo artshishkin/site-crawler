@@ -1,6 +1,7 @@
 package net.shyshkin.war.sitecrawler.config;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class WebClientConfig {
@@ -46,7 +48,8 @@ public class WebClientConfig {
                     .queryParam("v", vkApiConfigData.getApiVersion())
                     .queryParam("access_token", vkApiConfigData.getAccessToken())
                     .queryParam("lang", "ru")
-                    .build("queryParamValue");
+                    .build(true)
+                    .toUri();
             ClientRequest clientRequest = ClientRequest.from(request)
                     .url(uri)
                     .build();

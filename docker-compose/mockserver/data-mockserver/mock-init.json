@@ -158,6 +158,9 @@
     "httpRequest": {
       "path": "/method/users.search",
       "queryStringParameters": {
+        "q": [
+          "СКАЧКОВ СЕРГЕЙ"
+        ],
         "access_token": [
           "super-secret-access-token"
         ],

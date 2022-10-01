@@ -44,7 +44,7 @@ public class VkApiServiceImpl implements VkApiService {
 
     @Override
     public Mono<String> searchUsersJson(SearchRequest searchRequest) {
-        return searchUsers(searchRequest,String.class)
+        return searchUsers(searchRequest, String.class)
                 .doOnNext(jsonResponse -> log.debug("Search User Response: {}", jsonResponse));
     }
 
@@ -62,6 +62,7 @@ public class VkApiServiceImpl implements VkApiService {
     }
 
     private <T> Mono<T> searchUsers(SearchRequest searchRequest, Class<T> T) {
+        log.debug("Searching for: {}", searchRequest);
         return vkApiClient.get()
                 .uri(builder -> builder
                         .path(configData.getSearchEndpoint())

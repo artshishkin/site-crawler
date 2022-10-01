@@ -9,5 +9,6 @@ services:
       - '8080:8080'
     environment:
       "logging.level.net.shyshkin": debug
+      "logging.level.org.springframework.web.reactive.function.client": debug
       "app.fetch.base-url": 'https://m.vk.com'
       VK_ACCESS_TOKEN: ${VK_ACCESS_TOKEN}
