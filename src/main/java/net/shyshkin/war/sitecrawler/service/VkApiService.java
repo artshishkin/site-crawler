@@ -21,4 +21,6 @@ public interface VkApiService {
 
     Mono<String> getCitiesJson(Pageable pageable);
 
+    Mono<Integer> getCitiesCount();
+
 }

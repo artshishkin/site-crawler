@@ -273,4 +273,25 @@ class ProxyControllerTest {
         then(vkApiService).should().getCitiesJson(eq(Pageable.ofSize(1000)));
     }
 
+    @Test
+    void getCitiesCount_shouldCallVkApiService() {
+
+        //given
+        given(vkApiService.getCitiesCount())
+                .willReturn(Mono.just(123));
+
+        //when
+        webTestClient
+                .get().uri("/cities/count")
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+
+                //then
+                .expectStatus().isOk()
+                .expectBody(Integer.class)
+                .isEqualTo(123);
+
+        then(vkApiService).should().getCitiesCount();
+    }
+
 }

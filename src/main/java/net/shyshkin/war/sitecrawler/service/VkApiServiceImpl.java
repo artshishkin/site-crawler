@@ -60,6 +60,14 @@ public class VkApiServiceImpl implements VkApiService {
         return getCities(pageable, String.class);
     }
 
+    @Override
+    public Mono<Integer> getCitiesCount() {
+        log.debug("Getting cities count...");
+        return getCities(Pageable.ofSize(1), VkCitiesResponse.class)
+                .map(VkCitiesResponse::getResponse)
+                .map(VkCitiesResponse.CitiesResponse::getCount);
+    }
+
     private <T> Mono<T> getUser(Long userId, Class<T> T) {
         return vkApiClient.get()
                 .uri(builder -> builder

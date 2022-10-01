@@ -79,4 +79,12 @@ public class ProxyController {
         return vkApiService.getCitiesJson(pageable);
     }
 
+    @GetMapping(
+            value = "/cities/count",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Mono<Integer> getCitiesCount() {
+        return vkApiService.getCitiesCount();
+    }
+
 }

@@ -177,24 +177,37 @@ class VkApiServiceIT extends CommonAbstractTest {
         //then
         StepVerifier.create(jsonMono)
                 .consumeNextWith(citiesResp -> assertThat(citiesResp)
-                        .isNotNull()
-                        .satisfies(jsonString -> {
+                                .isNotNull()
+                                .satisfies(jsonString -> {
 //                            log.debug("Response from server:\n{}", jsonString);
-                            JsonNode jsonNode = objectMapper.readValue(jsonString, JsonNode.class);
-                            assertAll(
-                                    () -> assertThat(jsonNode.at("/response/count").asInt()).isEqualTo(157601),
-                                    () -> assertThat(jsonNode.at("/response/items/0/id").asLong()).isEqualTo(5487461L),
-                                    () -> assertThat(jsonNode.at("/response/items/0/title").asText()).isEqualTo("0 км"),
-                                    () -> assertThat(jsonNode.at("/response/items/0/area").asText()).isEqualTo("Надымский район район"),
-                                    () -> assertThat(jsonNode.at("/response/items/0/region").asText()).isEqualTo("Ямало-Ненецкий автономный округ АО"),
-                                    () -> assertThat(jsonNode.at("/response/items/99/id").asLong()).isEqualTo(1081023L),
-                                    () -> assertThat(jsonNode.at("/response/items/99/title").asText()).isEqualTo("10-й год Октября"),
-                                    () -> assertThat(jsonNode.at("/response/items/99/area").asText()).isEqualTo("Михайловский район район"),
-                                    () -> assertThat(jsonNode.at("/response/items/99/region").asText()).isEqualTo("Рязанская область область")
-                            );
-                        })
+                                    JsonNode jsonNode = objectMapper.readValue(jsonString, JsonNode.class);
+                                    assertAll(
+                                            () -> assertThat(jsonNode.at("/response/count").asInt()).isEqualTo(157601),
+                                            () -> assertThat(jsonNode.at("/response/items/0/id").asLong()).isEqualTo(5487461L),
+                                            () -> assertThat(jsonNode.at("/response/items/0/title").asText()).isEqualTo("0 км"),
+                                            () -> assertThat(jsonNode.at("/response/items/0/area").asText()).isEqualTo("Надымский район район"),
+                                            () -> assertThat(jsonNode.at("/response/items/0/region").asText()).isEqualTo("Ямало-Ненецкий автономный округ АО"),
+                                            () -> assertThat(jsonNode.at("/response/items/99/id").asLong()).isEqualTo(1081023L),
+                                            () -> assertThat(jsonNode.at("/response/items/99/title").asText()).isEqualTo("10-й год Октября"),
+                                            () -> assertThat(jsonNode.at("/response/items/99/area").asText()).isEqualTo("Михайловский район район"),
+                                            () -> assertThat(jsonNode.at("/response/items/99/region").asText()).isEqualTo("Рязанская область область")
+                                    );
+                                })
                 )
                 .verifyComplete();
     }
+
+    @Test
+    void getCitiesCount() {
+
+        //when
+        var countMono = vkApiService.getCitiesCount();
+
+        //then
+        StepVerifier.create(countMono)
+                .expectNext(157601)
+                .verifyComplete();
+    }
+
 
 }
