@@ -147,6 +147,19 @@
             "id": 123,
             "first_name": "Art",
             "last_name": "Shyshkin",
+            "city": {
+              "id": 123,
+              "title": "London"
+            },
+            "country": {
+              "id": 321,
+              "title": "США"
+            },
+            "last_seen": {
+              "platform": 7,
+              "time": 1370691677
+            },
+            "bdate": "7.2.1983",
             "can_access_closed": true,
             "is_closed": false
           }
@@ -196,6 +209,7 @@
                 "platform": 4,
                 "time": 1663670885
               },
+              "bdate": "29.3.1992",
               "home_town": "",
               "track_code": "d67785d39DN-wcboukNgG7rI-EaFrFBH6bpu3A5srM4fnQs8gpaTWmian9XuTDQagi88pF-pOEnvuW7cAArepw",
               "screen_name": "id565294160",
@@ -219,6 +233,7 @@
                 "platform": 7,
                 "time": 1370691677
               },
+              "bdate": "29.3.1992",
               "home_town": "донской",
               "track_code": "e1ec50a61BlpQZxNt46U0p8PwtmY5q8lnxenIVgcO1MxVk9tz76zcChHzHDmjJHWq-sDPEPjxyuZFKchVnpJOg",
               "screen_name": "id207667411",
