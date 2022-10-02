@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -174,26 +175,23 @@ class VkApiServiceIT extends CommonAbstractTest {
     void getAllCities() {
 
         //given
-        int expectedSize = 100 * (157601 / 1000 + 1);
-        AtomicInteger counter = new AtomicInteger();
+        int expectedRequestNumber = 157601 / 1000 + 1;
+        int expectedSize = 100 * expectedRequestNumber;
 
         //when
-        var cityFlux = vkApiService.getCities();
+        StepVerifier
+                .withVirtualTime(() -> vkApiService.getCities())
 
-        //then
-        StepVerifier.create(cityFlux)
-                .thenConsumeWhile(
-                        vkCity -> true,
-                        vkCity -> assertAll(
-                                () -> assertThat(vkCity)
-                                        .isNotNull()
-//                                        .hasNoNullFieldsOrProperties()
-                                ,
-                                counter::incrementAndGet
-                        )
-                )
-                .verifyComplete();
-        assertThat(counter.get()).isEqualTo(expectedSize);
+                //then
+                .expectSubscription()
+                .thenAwait(Duration.ofMillis(350))
+                .expectNextCount(100)
+                .thenAwait(Duration.ofMillis(350))
+                .expectNextCount(100)
+                .thenAwait(Duration.ofSeconds(60))
+                .expectNextCount(expectedSize - 200)
+                .expectComplete()
+                .verify(Duration.ofSeconds(5));
     }
 
     @Test
