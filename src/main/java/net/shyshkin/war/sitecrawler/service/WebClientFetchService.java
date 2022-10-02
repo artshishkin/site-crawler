@@ -65,10 +65,10 @@ public class WebClientFetchService implements FetchService {
     }
 
     @Override
-    public Mono<String> fetchUserPage(String userId) {
+    public Mono<String> fetchUserPage(Long userId) {
         log.debug("Getting user page {}", userId);
         return webClient
-                .get().uri(fetchConfigData.getUserPattern(), userId)
+                .get().uri(fetchConfigData.getUserPattern(), "id" + userId)
                 .exchangeToMono(clientResponse -> {
                     log.debug("Status code: {}", clientResponse.statusCode());
                     log.debug("Headers as HttpHeaders: {}", clientResponse.headers().asHttpHeaders());

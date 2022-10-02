@@ -9,5 +9,5 @@ public interface FetchService {
 
     Mono<String> fetchSearchPage(SearchRequest searchRequest);
 
-    Mono<String> fetchUserPage(String userId);
+    Mono<String> fetchUserPage(Long userId);
 }

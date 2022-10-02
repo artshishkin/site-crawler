@@ -86,7 +86,7 @@ class ProxyControllerTest {
     void getUser_withAcceptTxtHtml_shouldCallFetchService() {
 
         //given
-        given(fetchService.fetchUserPage(anyString()))
+        given(fetchService.fetchUserPage(anyLong()))
                 .willReturn(Mono.just("Text HTML"));
 
         //when
@@ -100,7 +100,7 @@ class ProxyControllerTest {
                 .expectBody(String.class)
                 .isEqualTo("Text HTML");
 
-        then(fetchService).should().fetchUserPage(eq("12345678"));
+        then(fetchService).should().fetchUserPage(eq(12345678L));
     }
 
     @Test

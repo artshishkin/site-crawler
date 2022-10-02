@@ -34,7 +34,7 @@ public class ProxyController {
     }
 
     @GetMapping(value = "/users/{id}", produces = MediaType.TEXT_HTML_VALUE)
-    public Mono<String> getUser(@PathVariable("id") String userId) {
+    public Mono<String> getUserHtmlPage(@PathVariable("id") Long userId) {
         return fetchService.fetchUserPage(userId);
     }
 
