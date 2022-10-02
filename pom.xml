@@ -18,7 +18,7 @@
         <docker-maven-plugin.version>0.40.2</docker-maven-plugin.version>
         <docker.image.prefix>artarkatesoft</docker.image.prefix>
         <docker.image.name>art-${project.artifactId}</docker.image.name>
-        <spring.boot.version>${parent.version}</spring.boot.version>
+        <spring.boot.version>${project.parent.version}</spring.boot.version>
         <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
     <dependencies>
