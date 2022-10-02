@@ -1,3 +1,7 @@
+[![CircleCI](https://circleci.com/gh/artshishkin/site-crawler.svg?style=svg)](https://circleci.com/gh/artshishkin/site-crawler)
+[![codecov](https://codecov.io/gh/artshishkin/site-crawler/branch/master/graph/badge.svg?token=U5YRYVEM7N)](https://codecov.io/gh/artshishkin/site-crawler)
+![Java CI with Maven](https://github.com/artshishkin/site-crawler/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 ![Spring Boot version][springver]
 ![Docker][docker]
 ![Testcontainers version][testcontainersver]
