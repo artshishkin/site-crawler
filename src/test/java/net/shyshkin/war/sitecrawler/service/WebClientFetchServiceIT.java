@@ -44,6 +44,7 @@ class WebClientFetchServiceIT extends CommonAbstractTest {
                 .bday(29)
                 .bmonth(3)
                 .byear(1992)
+                .city(1L)
                 .build();
 
         //when
@@ -65,6 +66,7 @@ class WebClientFetchServiceIT extends CommonAbstractTest {
                 .bday(29)
                 .bmonth(3)
                 .byear(1992)
+                .city(1L)
                 .build();
 
         //when

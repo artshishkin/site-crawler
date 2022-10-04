@@ -11,7 +11,7 @@ GET {{host}}/search?name=СМИРНОВ СЕРГЕЙ
 Accept: text/html
 
 ### Search user with birthdate parameters
-GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&city=1
 Accept: text/html
 
 ### Get user by id
@@ -27,15 +27,15 @@ GET {{host}}/users/207667411?debug
 Accept: application/json
 
 ### Search for user through VK API - application/json
-GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&city=1
 Accept: application/json
 
 ### Search for user through VK API - text/event-stream
-GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&city=1
 Accept: text/event-stream
 
 ### Search for user through VK API - debug full response
-GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&debug
+GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&city=1&debug
 Accept: application/json
 
 ### Get cities through VK API - application/json

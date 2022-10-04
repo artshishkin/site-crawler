@@ -167,13 +167,14 @@ class ProxyControllerTest {
                 .bday(7)
                 .bmonth(2)
                 .byear(1983)
+                .city(123L)
                 .build();
         given(vkApiService.searchUsers(any(SearchRequest.class)))
                 .willReturn(Flux.just(mockUser));
 
         //when
         Flux<VkUser> userFlux = webTestClient
-                .get().uri("/search?name=Art&bday=7&bmonth=2&byear=1983")
+                .get().uri("/search?name=Art&bday=7&bmonth=2&byear=1983&city=123")
                 .accept(mediaType)
                 .exchange()
 
@@ -198,6 +199,7 @@ class ProxyControllerTest {
                 .bday(7)
                 .bmonth(2)
                 .byear(1983)
+                .city(123L)
                 .build();
         String mockResponse = "{\"response\": \"mock-response\"}";
         given(vkApiService.searchUsersJson(any(SearchRequest.class)))
@@ -205,7 +207,7 @@ class ProxyControllerTest {
 
         //when
         webTestClient
-                .get().uri("/search?name=Art&bday=7&bmonth=2&byear=1983&debug")
+                .get().uri("/search?name=Art&bday=7&bmonth=2&byear=1983&debug&city=123")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
 

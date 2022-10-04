@@ -88,6 +88,7 @@ class VkApiServiceIT extends CommonAbstractTest {
                 .bday(29)
                 .bmonth(3)
                 .byear(1992)
+                .city(1L)
                 .build();
 
         //when
@@ -118,6 +119,7 @@ class VkApiServiceIT extends CommonAbstractTest {
                 .bday(29)
                 .bmonth(3)
                 .byear(1992)
+                .city(1L)
                 .build();
 
         //when
@@ -191,7 +193,7 @@ class VkApiServiceIT extends CommonAbstractTest {
                 .thenAwait(Duration.ofSeconds(60))
                 .expectNextCount(expectedSize - 200)
                 .expectComplete()
-                .verify(Duration.ofSeconds(5));
+                .verify(Duration.ofSeconds(6));
     }
 
     @Test
