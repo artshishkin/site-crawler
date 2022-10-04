@@ -101,7 +101,7 @@ public class VkApiServiceImpl implements VkApiService {
                 .uri(builder -> builder
                         .path(configData.getSearchEndpoint())
                         .queryParam("q", searchRequest.getName())
-                        .queryParam("city", 1)
+                        .queryParam("city", searchRequest.getCity())
                         .queryParam("country", 1)
                         .queryParam("birth_day", searchRequest.getBday())
                         .queryParam("birth_month", searchRequest.getBmonth())

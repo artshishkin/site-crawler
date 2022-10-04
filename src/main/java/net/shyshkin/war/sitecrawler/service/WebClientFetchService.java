@@ -48,7 +48,7 @@ public class WebClientFetchService implements FetchService {
                         .queryParam("c[bday]", searchRequest.getBday())
                         .queryParam("c[bmonth]", searchRequest.getBmonth())
                         .queryParam("c[byear]", searchRequest.getByear())
-                        .queryParam("c[city]", 1)
+                        .queryParam("c[city]", searchRequest.getCity())
                         .queryParam("c[country]", 1)
                         .queryParam("c[per_page]", 40)
                         .queryParam("c[name]", 1)
