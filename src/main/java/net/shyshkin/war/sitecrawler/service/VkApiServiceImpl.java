@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.sitecrawler.config.VkApiConfigData;
 import net.shyshkin.war.sitecrawler.dto.*;
+import net.shyshkin.war.sitecrawler.exception.VkApiException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -88,11 +89,12 @@ public class VkApiServiceImpl implements VkApiService {
                         .queryParam("user_id", userId)
                         .queryParam("fields", configData.getFields())
                         .build())
-                .exchangeToMono(response -> {
-                    log.debug("Status code: {}", response.statusCode());
-                    log.debug("Headers: {}", response.headers().asHttpHeaders());
-                    return response.bodyToMono(T);
-                });
+
+                .retrieve()
+                .onStatus(httpStatus -> !httpStatus.is2xxSuccessful(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .map(VkApiException::new))
+                .bodyToMono(T);
     }
 
     private <T> Mono<T> searchUsers(SearchRequest searchRequest, Class<T> T) {
@@ -108,11 +110,11 @@ public class VkApiServiceImpl implements VkApiService {
                         .queryParam("birth_year", searchRequest.getByear())
                         .queryParam("fields", configData.getFields())
                         .build())
-                .exchangeToMono(response -> {
-                    log.debug("Status code: {}", response.statusCode());
-                    log.debug("Headers: {}", response.headers().asHttpHeaders());
-                    return response.bodyToMono(T);
-                });
+                .retrieve()
+                .onStatus(httpStatus -> !httpStatus.is2xxSuccessful(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .map(VkApiException::new))
+                .bodyToMono(T);
     }
 
     private <T> Mono<T> getCities(Pageable pageable, Class<T> T) {
