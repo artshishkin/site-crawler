@@ -56,6 +56,24 @@ class VkApiServiceIT extends CommonAbstractTest {
     }
 
     @Test
+    void getUser_exception() {
+
+        //given
+        Long userId = 987654321L;
+
+        //when
+        Mono<VkUser> userMono = vkApiService.getUser(userId);
+
+        //then
+        StepVerifier.create(userMono)
+                .verifyErrorSatisfies(throwable -> assertThat(throwable)
+                        .isInstanceOf(VkApiException.class)
+                        .hasMessageContaining("\"error_code\":5")
+                        .hasMessageContaining("\"error_msg\":\"User authorization failed: access_token has expired.\"")
+                );
+    }
+
+    @Test
     void getUserJson() {
         //given
         Long userId = 123L;

@@ -26,6 +26,10 @@ public class VkApiServiceImpl implements VkApiService {
     @Override
     public Mono<VkUser> getUser(Long userId) {
         return getUser(userId, VkUserResponse.class)
+                .doOnNext(response -> {
+                    if (response.getError() != null)
+                        throw new VkApiException(response.getError().toString());
+                })
                 .flatMapIterable(VkUserResponse::getResponse)
                 .next()
                 .doOnNext(vkUser -> log.debug("User: {}", vkUser));
