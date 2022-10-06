@@ -216,6 +216,38 @@ class VkApiServiceIT extends CommonAbstractTest {
     }
 
     @Test
+    void getCities_exception_illegalArgument() {
+
+        //when
+        var cityFlux = vkApiService.getCities(Pageable.ofSize(10000));
+
+        //then
+        StepVerifier.create(cityFlux)
+                .verifyErrorSatisfies(throwable -> assertThat(throwable)
+                        .isInstanceOf(IllegalArgumentException.class)
+                        .hasMessageContaining("Page size must be positive and less then 1000")
+                );
+    }
+
+    @Test
+    void getCities_exception_vkApi() {
+
+        //given
+        int fakePageSizeForMockException = 321;
+
+        //when
+        var cityFlux = vkApiService.getCities(Pageable.ofSize(fakePageSizeForMockException));
+
+        //then
+        StepVerifier.create(cityFlux)
+                .verifyErrorSatisfies(throwable -> assertThat(throwable)
+                        .isInstanceOf(VkApiException.class)
+                        .hasMessageContaining("\"error_code\":5")
+                        .hasMessageContaining("\"error_msg\":\"User authorization failed: access_token has expired.\"")
+                );
+    }
+
+    @Test
     @DisplayName("Requesting all the cities should call VK API multiple time")
     void getAllCities() {
 
@@ -236,7 +268,7 @@ class VkApiServiceIT extends CommonAbstractTest {
                 .thenAwait(Duration.ofSeconds(60))
                 .expectNextCount(expectedSize - 200)
                 .expectComplete()
-                .verify(Duration.ofSeconds(6));
+                .verify(Duration.ofSeconds(10));
     }
 
     @Test

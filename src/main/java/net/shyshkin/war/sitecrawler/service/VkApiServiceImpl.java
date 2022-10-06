@@ -72,6 +72,10 @@ public class VkApiServiceImpl implements VkApiService {
     public Flux<VkCity> getCities(Pageable pageable) {
         log.debug("Getting cities...");
         return getCities(pageable, VkCitiesResponse.class)
+                .doOnNext(response -> {
+                    if (response.getError() != null)
+                        throw new VkApiException(response.getError().toString());
+                })
                 .map(VkCitiesResponse::getResponse)
                 .flatMapIterable(VkCitiesResponse.CitiesResponse::getItems);
     }
@@ -126,21 +130,25 @@ public class VkApiServiceImpl implements VkApiService {
     }
 
     private <T> Mono<T> getCities(Pageable pageable, Class<T> T) {
-        if (pageable.getPageSize() <= 0 || pageable.getPageSize() > REQUEST_CITIES_MAX_SIZE)
-            throw new IllegalArgumentException("Page size must be positive and less then 1000");
-        return vkApiClient.get()
-                .uri(builder -> builder
-                        .path(configData.getCitiesEndpoint())
-                        .queryParam("country_id", 1)
-                        .queryParam("need_all", 1)
-                        .queryParam("count", pageable.getPageSize())
-                        .queryParam("offset", pageable.getOffset())
-                        .build())
-                .exchangeToMono(response -> {
-                    log.debug("Status code: {}", response.statusCode());
-                    log.debug("Headers: {}", response.headers().asHttpHeaders());
-                    return response.bodyToMono(T);
-                });
+        return Mono.just(pageable)
+                .doOnNext(p -> {
+                    if (pageable.getPageSize() <= 0 || pageable.getPageSize() > REQUEST_CITIES_MAX_SIZE)
+                        throw new IllegalArgumentException("Page size must be positive and less then 1000");
+                })
+                .then(vkApiClient.get()
+                        .uri(builder -> builder
+                                .path(configData.getCitiesEndpoint())
+                                .queryParam("country_id", 1)
+                                .queryParam("need_all", 1)
+                                .queryParam("count", pageable.getPageSize())
+                                .queryParam("offset", pageable.getOffset())
+                                .build())
+                        .exchangeToMono(response -> {
+                            log.debug("Status code: {}", response.statusCode());
+                            log.debug("Headers: {}", response.headers().asHttpHeaders());
+                            return response.bodyToMono(T);
+                        })
+                );
     }
 
 }

@@ -371,6 +371,62 @@
   },
   {
     "httpRequest": {
+      "path": "/method/database.getCities",
+      "queryStringParameters": {
+        "count": [
+          "321"
+        ],
+        "access_token": [
+          "super-secret-access-token"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body":{
+        "error": {
+          "error_code": 5,
+          "error_msg": "User authorization failed: access_token has expired.",
+          "request_params": [
+            {
+              "key": "country_id",
+              "value": "1"
+            },
+            {
+              "key": "need_all",
+              "value": "1"
+            },
+            {
+              "key": "count",
+              "value": "321"
+            },
+            {
+              "key": "offset",
+              "value": "0"
+            },
+            {
+              "key": "v",
+              "value": "5.194"
+            },
+            {
+              "key": "lang",
+              "value": "ru"
+            },
+            {
+              "key": "method",
+              "value": "database.getCities"
+            },
+            {
+              "key": "oauth",
+              "value": "1"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
       "path": "/method/database.getCities"
     },
     "httpResponse": {
