@@ -252,6 +252,66 @@
   },
   {
     "httpRequest": {
+      "path": "/method/users.search",
+      "queryStringParameters": {
+        "q": [
+          "AUTH FAILED"
+        ],
+        "access_token": [
+          "super-secret-access-token"
+        ],
+        "birth_day": [
+          "29"
+        ],
+        "birth_month": [
+          "3"
+        ],
+        "birth_year": [
+          "1992"
+        ],
+        "city": [
+          "1"
+        ]
+      }
+    },
+    "httpResponse": {
+      "statusCode": 200,
+      "body": {
+        "error": {
+          "error_code": 5,
+          "error_msg": "User authorization failed: access_token has expired.",
+          "request_params": [
+            {
+              "key": "user_id",
+              "value": "207667411"
+            },
+            {
+              "key": "fields",
+              "value": "bdate,city,country,last_seen"
+            },
+            {
+              "key": "v",
+              "value": "5.194"
+            },
+            {
+              "key": "lang",
+              "value": "ru"
+            },
+            {
+              "key": "method",
+              "value": "users.get"
+            },
+            {
+              "key": "oauth",
+              "value": "1"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "httpRequest": {
       "path": "/method/users.search"
     },
     "httpResponse": {

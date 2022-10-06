@@ -40,6 +40,10 @@ public class VkApiServiceImpl implements VkApiService {
     @Override
     public Flux<VkUser> searchUsers(SearchRequest searchRequest) {
         return searchUsers(searchRequest, VkSearchUserResponse.class)
+                .doOnNext(response -> {
+                    if (response.getError() != null)
+                        throw new VkApiException(response.getError().toString());
+                })
                 .map(VkSearchUserResponse::getResponse)
                 .flatMapIterable(VkSearchUserResponse.SearchUserResponse::getItems)
                 .doOnNext(jsonResponse -> log.debug("Search User Response: {}", jsonResponse));

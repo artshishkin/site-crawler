@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.sitecrawler.common.CommonAbstractTest;
 import net.shyshkin.war.sitecrawler.dto.SearchRequest;
 import net.shyshkin.war.sitecrawler.dto.VkUser;
+import net.shyshkin.war.sitecrawler.exception.VkApiException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,6 +109,30 @@ class VkApiServiceIT extends CommonAbstractTest {
                         )
                 )
                 .verifyComplete();
+    }
+
+    @Test
+    void searchUsers_exception() {
+
+        //given
+        SearchRequest searchRequest = SearchRequest.builder()
+                .name("AUTH FAILED")
+                .bday(29)
+                .bmonth(3)
+                .byear(1992)
+                .city(1L)
+                .build();
+
+        //when
+        Flux<VkUser> userFlux = vkApiService.searchUsers(searchRequest);
+
+        //then
+        StepVerifier.create(userFlux)
+                .verifyErrorSatisfies(throwable -> assertThat(throwable)
+                        .isInstanceOf(VkApiException.class)
+                        .hasMessageContaining("\"error_code\":5")
+                        .hasMessageContaining("\"error_msg\":\"User authorization failed: access_token has expired.\"")
+                );
     }
 
     @Test

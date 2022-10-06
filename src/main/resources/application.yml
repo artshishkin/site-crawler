@@ -18,6 +18,9 @@ logging:
   level:
     net.shyshkin: debug
 
+server:
+  error:
+    include-message: always
 ---
 spring:
   config:
