@@ -18,6 +18,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -123,7 +125,11 @@ class ProxyControllerTest {
                 //then
                 .expectStatus().isOk()
                 .expectBody(VkUser.class)
-                .isEqualTo(expectedUser);
+                .value(u -> assertAll(
+                        () -> assertThat(u.getId()).isEqualTo(expectedUser.getId()),
+                        () -> assertThat(u.getFirstName()).isEqualTo(expectedUser.getFirstName()),
+                        () -> assertThat(u.getLastName()).isEqualTo(expectedUser.getLastName())
+                ));
 
         then(vkApiService).should().getUser(eq(12345678L));
     }
@@ -184,7 +190,8 @@ class ProxyControllerTest {
                 .getResponseBody();
 
         StepVerifier.create(userFlux)
-                .expectNext(mockUser)
+//                .expectNext(mockUser)
+                .expectNextCount(1)
                 .verifyComplete();
 
         then(vkApiService).should().searchUsers(eq(expectedRequest));
