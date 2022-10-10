@@ -11,7 +11,7 @@ public class VersionUtil {
 
     private static Map<String, String> versions;
 
-    private static final String ENV_FILE_PATH = "docker-compose/mockserver/.env";
+    private static final String ENV_FILE_PATH = "../docker-compose/mockserver/.env";
 
     public static String getVersion(String versionKey) {
         if (versions == null) {

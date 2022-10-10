@@ -18,7 +18,7 @@ import org.testcontainers.utility.MountableFile;
 @ActiveProfiles("mock")
 public abstract class CommonAbstractTest {
 
-    private static final String MOCKSERVER_CONFIG_DIR_PATH = "docker-compose/mockserver/data-mockserver/mock-init.json";
+    private static final String MOCKSERVER_CONFIG_DIR_PATH = "../docker-compose/mockserver/data-mockserver/mock-init.json";
 
     static protected GenericContainer<?> mockserver = new GenericContainer<>(DockerImageName.parse("mockserver/mockserver")
             .withTag(VersionUtil.getVersion("MOCKSERVER_VERSION")))
