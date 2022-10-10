@@ -9,56 +9,22 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>net.shyshkin.war</groupId>
-    <artifactId>site-crawler</artifactId>
+    <artifactId>vk-data-fetcher</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>site-crawler</name>
-    <description>site-crawler</description>
+    <name>vk-data-fetcher</name>
+    <description>vk-data-fetcher</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>site-crawler</module>
+    </modules>
     <properties>
         <java.version>11</java.version>
         <docker-maven-plugin.version>0.40.2</docker-maven-plugin.version>
         <docker.image.prefix>artarkatesoft</docker.image.prefix>
         <docker.image.name>art-${project.artifactId}</docker.image.name>
-        <spring.boot.version>${project.parent.version}</spring.boot.version>
+        <spring.boot.version>2.7.4</spring.boot.version>
         <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
