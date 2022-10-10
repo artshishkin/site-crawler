@@ -38,3 +38,4 @@ output/
 logs/
 *.log
 twitter4j.properties
+/requests/requests-auth-secret.http
