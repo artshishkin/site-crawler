@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>site-crawler</module>
+        <module>vk-rest-api</module>
     </modules>
     <properties>
         <java.version>11</java.version>
