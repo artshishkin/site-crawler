@@ -1,5 +1,6 @@
 package net.shyshkin.war.vkrestapi.config;
 
+import com.google.gson.Gson;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
@@ -20,6 +21,11 @@ public class VkApiConfig {
     @Bean
     UserActor actor(VkApiConfigData configData) {
         return new UserActor(configData.getUserId(), configData.getAccessToken());
+    }
+
+    @Bean
+    Gson gson(){
+        return new Gson();
     }
 
 }
