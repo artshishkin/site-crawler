@@ -1,8 +1,16 @@
-server.port: 8081
+server:
+  port: 8090
+  error:
+    include-message: always
+    include-stacktrace: always
+    include-exception: true
 
 app.vk-api:
   user-id: ${VK_USER_ID}
   access-token: ${VK_ACCESS_TOKEN}
   fields: bdate,city,country,last_seen,deactivated,is_closed,about,activities,books,career,connections,contacts,counters,domain,education,exports,followers_count,has_mobile,has_photo,home_town,military,movies,music,nickname,occupation,personal,quotes,relatives,relation,schools,sex,site,status,universities
 
+logging:
+  level:
+    net.shyshkin: debug
 
