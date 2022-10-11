@@ -1,3 +1,7 @@
 ### Update site-crawler service
 POST http://ddos.shyshkin.org:9000/api/webhooks/6ff578db-63d3-4a61-8c88-a926d710f508
 Accept: application/json
+
+### Update vk-rest-api service
+POST http://ddos.shyshkin.org:9000/api/webhooks/b678f396-5fba-4715-a7e5-3193385f001e
+Accept: application/json
