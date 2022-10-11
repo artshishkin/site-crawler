@@ -2,7 +2,7 @@
   <configuration default="false" name="mockserver" type="docker-deploy" factoryName="docker-compose.yml" server-name="Docker">
     <deployment type="docker-compose.yml">
       <settings>
-        <option name="envFilePath" value="C:\Users\Admin\IdeaProjects\War\site-crawler\docker-compose\mockserver\.env" />
+        <option name="envFilePath" value="C:\Users\Admin\IdeaProjects\War\vk-data-fetcher\docker-compose\mockserver\.env" />
         <option name="commandLineOptions" value="--build" />
         <option name="secondarySourceFiles">
           <list>
