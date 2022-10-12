@@ -36,9 +36,20 @@ public class VkApiServiceImpl implements VkApiService {
 
     @Override
     public Mono<UserFull> getUser(Integer userId) {
-        return Mono.fromSupplier(() -> getUsers(String.valueOf(userId)))
+        return Mono.fromSupplier(() -> getUsersInternal(String.valueOf(userId)))
                 .flatMapIterable(list -> list)
                 .next()
+                .subscribeOn(Schedulers.boundedElastic())
+                .cast(UserFull.class);
+    }
+
+    @Override
+    public Flux<UserFull> getUsers(List<Integer> userIds) {
+        return Flux.fromIterable(userIds)
+                .map(String::valueOf)
+                .collectList()
+                .map(this::getUsersInternal)
+                .flatMapIterable(Function.identity())
                 .subscribeOn(Schedulers.boundedElastic())
                 .cast(UserFull.class);
     }
@@ -50,7 +61,7 @@ public class VkApiServiceImpl implements VkApiService {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
-    private List<GetResponse> getUsers(List<String> ids) {
+    private List<GetResponse> getUsersInternal(List<String> ids) {
         try {
             List<Fields> fields = readFields();
 
@@ -72,8 +83,8 @@ public class VkApiServiceImpl implements VkApiService {
                 .collect(Collectors.toList());
     }
 
-    private List<GetResponse> getUsers(String... ids) {
-        return getUsers(List.of(ids));
+    private List<GetResponse> getUsersInternal(String... ids) {
+        return getUsersInternal(List.of(ids));
     }
 
     private List<UserFull> searchUsersInternal(SearchRequest searchRequest) {
