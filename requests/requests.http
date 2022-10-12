@@ -51,6 +51,28 @@ Accept: text/event-stream
 GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&city=1&debug
 Accept: application/json
 
+### Search for many users through VK API - full JSON
+POST {{host}}/search
+Accept: application/json
+Content-Type: application/json
+
+[
+  {
+    "name": "СКАЧКОВ СЕРГЕЙ",
+    "bday": 29,
+    "bmonth": 3,
+    "byear": 1992,
+    "city": 1
+  },
+  {
+    "name": "МАТЕВОСЯН",
+    "bday": 1,
+    "bmonth": 2,
+    "byear": 1996,
+    "city": 1121988
+  }
+]
+
 ### Get cities through VK API - application/json
 GET {{host}}/cities?page=0&size=3
 Accept: application/json

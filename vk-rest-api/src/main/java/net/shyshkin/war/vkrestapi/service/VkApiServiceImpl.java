@@ -1,6 +1,8 @@
 package net.shyshkin.war.vkrestapi.service;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.vk.api.sdk.client.AbstractQueryBuilder;
 import com.vk.api.sdk.client.Lang;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
@@ -9,6 +11,7 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserFull;
 import com.vk.api.sdk.objects.users.responses.GetResponse;
+import com.vk.api.sdk.queries.execute.ExecuteBatchQuery;
 import com.vk.api.sdk.queries.users.UsersGetQuery;
 import com.vk.api.sdk.queries.users.UsersSearchQuery;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +80,18 @@ public class VkApiServiceImpl implements VkApiService {
         return Mono.fromSupplier(() -> searchUsersJsonInternal(searchRequest));
     }
 
+    @Override
+    public Mono<JsonElement> searchUsersBatch(List<SearchRequest> searchRequests) {
+        return Mono.just(searchRequests)
+                .map(this::searchUsersBatchInternal);
+    }
+
+    @Override
+    public Mono<String> searchUsersBatchJson(List<SearchRequest> searchRequests) {
+        return Mono.just(searchRequests)
+                .map(this::searchUsersBatchJsonInternal);
+    }
+
     private List<GetResponse> getUsersInternal(List<String> ids) {
         try {
             return usersGetQuery(ids).execute();
@@ -135,4 +150,23 @@ public class VkApiServiceImpl implements VkApiService {
                 .fields(readFields());
     }
 
+    @SneakyThrows
+    private JsonElement searchUsersBatchInternal(List<SearchRequest> searchRequests) {
+        return searchUsersBatchQuery(searchRequests)
+                .execute();
+    }
+
+    @SneakyThrows
+    private String searchUsersBatchJsonInternal(List<SearchRequest> searchRequests) {
+        return searchUsersBatchQuery(searchRequests)
+                .executeAsString();
+    }
+
+    private ExecuteBatchQuery searchUsersBatchQuery(List<SearchRequest> searchRequests) {
+        var usersSearchQueries = searchRequests.stream()
+                .map(this::usersSearchQuery)
+                .map(searchQuery -> (AbstractQueryBuilder) searchQuery)
+                .collect(Collectors.toList());
+        return vk.execute().batch(actor, usersSearchQueries);
+    }
 }

@@ -1,6 +1,5 @@
 package net.shyshkin.war.vkrestapi.api;
 
-import com.google.gson.JsonElement;
 import com.vk.api.sdk.objects.users.UserFull;
 import lombok.RequiredArgsConstructor;
 import net.shyshkin.war.vkrestapi.dto.SearchRequest;
@@ -72,6 +71,14 @@ public class ProxyController {
     )
     public Mono<String> searchUserJson(SearchRequest searchRequest) {
         return vkApiService.searchUsersJson(searchRequest);
+    }
+
+    @PostMapping(
+            value = "/search",
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Mono<String> searchUserBatchJson(@RequestBody List<SearchRequest> searchRequests) {
+        return vkApiService.searchUsersBatchJson(searchRequests);
     }
 
 }
