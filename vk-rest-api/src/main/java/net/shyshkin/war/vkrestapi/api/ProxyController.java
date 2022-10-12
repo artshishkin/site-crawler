@@ -39,6 +39,18 @@ public class ProxyController {
     }
 
     @GetMapping(
+            value = "/users",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            params = {"debug"}
+    )
+    public Mono<String> getUsersJson(@RequestParam("ids") String userIds) {
+        List<Integer> ids = Arrays.stream(userIds.split(","))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        return vkApiService.getUsersJson(ids);
+    }
+
+    @GetMapping(
             value = "/search",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_EVENT_STREAM_VALUE}
     )

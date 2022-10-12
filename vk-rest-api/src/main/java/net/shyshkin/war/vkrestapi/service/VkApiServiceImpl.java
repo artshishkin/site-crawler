@@ -55,6 +55,15 @@ public class VkApiServiceImpl implements VkApiService {
     }
 
     @Override
+    public Mono<String> getUsersJson(List<Integer> userIds) {
+        return Flux.fromIterable(userIds)
+                .map(String::valueOf)
+                .collectList()
+                .map(this::getUsersJsonInternal)
+                .subscribeOn(Schedulers.boundedElastic());
+    }
+
+    @Override
     public Flux<UserFull> searchUsers(SearchRequest searchRequest) {
         return Mono.fromSupplier(() -> searchUsersInternal(searchRequest))
                 .flatMapIterable(Function.identity())
@@ -71,6 +80,20 @@ public class VkApiServiceImpl implements VkApiService {
                     .lang(Lang.RU)
                     .execute();
         } catch (ClientException | ApiException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getUsersJsonInternal(List<String> ids) {
+        try {
+            List<Fields> fields = readFields();
+
+            return vk.users().get(actor)
+                    .userIds(ids)
+                    .fields(fields)
+                    .lang(Lang.RU)
+                    .executeAsString();
+        } catch (ClientException e) {
             throw new RuntimeException(e);
         }
     }

@@ -35,6 +35,10 @@ Accept: application/json
 GET {{host}}/users?ids=207667411,323990198
 Accept: text/event-stream
 
+### Get many users by id through VK API (API provided by VK)  - full JSON
+GET {{host}}/users?debug&ids=207667411,35016089
+Accept: application/json
+
 ### Search for user through VK API - application/json
 GET {{host}}/search?name=СКАЧКОВ СЕРГЕЙ&bday=29&bmonth=3&byear=1992&city=1
 Accept: application/json

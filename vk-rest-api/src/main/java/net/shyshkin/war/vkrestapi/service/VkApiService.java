@@ -13,6 +13,8 @@ public interface VkApiService {
 
     Flux<UserFull> getUsers(List<Integer> userIds);
 
+    Mono<String> getUsersJson(List<Integer> userIds);
+
     Flux<UserFull> searchUsers(SearchRequest searchRequest);
 
 }
