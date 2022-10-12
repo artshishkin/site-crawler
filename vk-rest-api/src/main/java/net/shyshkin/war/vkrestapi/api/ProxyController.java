@@ -1,14 +1,12 @@
 package net.shyshkin.war.vkrestapi.api;
 
+import com.google.gson.JsonElement;
 import com.vk.api.sdk.objects.users.UserFull;
 import lombok.RequiredArgsConstructor;
 import net.shyshkin.war.vkrestapi.dto.SearchRequest;
 import net.shyshkin.war.vkrestapi.service.VkApiService;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,6 +23,15 @@ public class ProxyController {
     @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<UserFull> getUser(@PathVariable("id") Integer userId) {
         return vkApiService.getUser(userId);
+    }
+
+    @GetMapping(
+            value = "/users/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            params = "debug"
+    )
+    public Mono<String> getUserJson(@PathVariable("id") Integer userId) {
+        return vkApiService.getUsersJson(List.of(userId));
     }
 
     @GetMapping(
