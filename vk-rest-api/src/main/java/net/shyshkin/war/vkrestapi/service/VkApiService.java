@@ -17,4 +17,5 @@ public interface VkApiService {
 
     Flux<UserFull> searchUsers(SearchRequest searchRequest);
 
+    Mono<String> searchUsersJson(SearchRequest searchRequest);
 }

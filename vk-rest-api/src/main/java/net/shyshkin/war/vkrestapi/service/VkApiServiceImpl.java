@@ -9,9 +9,10 @@ import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserFull;
 import com.vk.api.sdk.objects.users.responses.GetResponse;
-import com.vk.api.sdk.objects.users.responses.SearchResponse;
 import com.vk.api.sdk.queries.users.UsersGetQuery;
+import com.vk.api.sdk.queries.users.UsersSearchQuery;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.vkrestapi.config.data.VkApiConfigData;
 import net.shyshkin.war.vkrestapi.dto.SearchRequest;
@@ -71,6 +72,11 @@ public class VkApiServiceImpl implements VkApiService {
                 .subscribeOn(Schedulers.boundedElastic());
     }
 
+    @Override
+    public Mono<String> searchUsersJson(SearchRequest searchRequest) {
+        return Mono.fromSupplier(() -> searchUsersJsonInternal(searchRequest));
+    }
+
     private List<GetResponse> getUsersInternal(List<String> ids) {
         try {
             return usersGetQuery(ids).execute();
@@ -106,23 +112,27 @@ public class VkApiServiceImpl implements VkApiService {
         return getUsersInternal(List.of(ids));
     }
 
+    @SneakyThrows({ApiException.class, ClientException.class})
     private List<UserFull> searchUsersInternal(SearchRequest searchRequest) {
+        return usersSearchQuery(searchRequest)
+                .execute()
+                .getItems();
+    }
 
-        List<Fields> fields = readFields();
+    @SneakyThrows(ClientException.class)
+    private String searchUsersJsonInternal(SearchRequest searchRequest) {
+        return usersSearchQuery(searchRequest)
+                .executeAsString();
+    }
 
-        try {
-            SearchResponse searchResponse = vk.users().search(actor)
-                    .q(searchRequest.getName())
-                    .birthDay(searchRequest.getBday())
-                    .birthMonth(searchRequest.getBmonth())
-                    .birthYear(searchRequest.getByear())
-                    .city(searchRequest.getCity())
-                    .fields(fields)
-                    .execute();
-            return searchResponse.getItems();
-        } catch (ApiException | ClientException e) {
-            throw new RuntimeException(e);
-        }
+    private UsersSearchQuery usersSearchQuery(SearchRequest searchRequest) {
+        return vk.users().search(actor)
+                .q(searchRequest.getName())
+                .birthDay(searchRequest.getBday())
+                .birthMonth(searchRequest.getBmonth())
+                .birthYear(searchRequest.getByear())
+                .city(searchRequest.getCity())
+                .fields(readFields());
     }
 
 }

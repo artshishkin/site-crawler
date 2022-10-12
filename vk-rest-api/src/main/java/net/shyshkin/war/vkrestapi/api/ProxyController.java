@@ -58,4 +58,13 @@ public class ProxyController {
         return vkApiService.searchUsers(searchRequest);
     }
 
+    @GetMapping(
+            value = "/search",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            params = {"debug"}
+    )
+    public Mono<String> searchUserJson(SearchRequest searchRequest) {
+        return vkApiService.searchUsersJson(searchRequest);
+    }
+
 }
