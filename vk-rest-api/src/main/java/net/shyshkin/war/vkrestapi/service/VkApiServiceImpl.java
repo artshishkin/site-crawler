@@ -10,6 +10,7 @@ import com.vk.api.sdk.objects.users.Fields;
 import com.vk.api.sdk.objects.users.UserFull;
 import com.vk.api.sdk.objects.users.responses.GetResponse;
 import com.vk.api.sdk.objects.users.responses.SearchResponse;
+import com.vk.api.sdk.queries.users.UsersGetQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.shyshkin.war.vkrestapi.config.data.VkApiConfigData;
@@ -72,13 +73,7 @@ public class VkApiServiceImpl implements VkApiService {
 
     private List<GetResponse> getUsersInternal(List<String> ids) {
         try {
-            List<Fields> fields = readFields();
-
-            return vk.users().get(actor)
-                    .userIds(ids)
-                    .fields(fields)
-                    .lang(Lang.RU)
-                    .execute();
+            return usersGetQuery(ids).execute();
         } catch (ClientException | ApiException e) {
             throw new RuntimeException(e);
         }
@@ -86,16 +81,17 @@ public class VkApiServiceImpl implements VkApiService {
 
     private String getUsersJsonInternal(List<String> ids) {
         try {
-            List<Fields> fields = readFields();
-
-            return vk.users().get(actor)
-                    .userIds(ids)
-                    .fields(fields)
-                    .lang(Lang.RU)
-                    .executeAsString();
+            return usersGetQuery(ids).executeAsString();
         } catch (ClientException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private UsersGetQuery usersGetQuery(List<String> ids) {
+        return vk.users().get(actor)
+                .userIds(ids)
+                .fields(readFields())
+                .lang(Lang.RU);
     }
 
     private List<Fields> readFields() {
