@@ -70,6 +70,13 @@ Content-Type: application/json
     "bmonth": 2,
     "byear": 1996,
     "city": 1121988
+  },
+  {
+    "name": "ОТСУТСТВУЮЩИЙ",
+    "bday": 1,
+    "bmonth": 1,
+    "byear": 1911,
+    "city": 1121988
   }
 ]
 
