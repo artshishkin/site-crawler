@@ -22,3 +22,12 @@ services:
       VK_USER_ID: ${VK_USER_ID}
       VK_ACCESS_TOKEN: ${VK_ACCESS_TOKEN_1}
       "app.vk-api.fields": "bdate,city,country,last_seen,deactivated,is_closed,about,activities,books,career,connections,contacts,counters,domain,education,exports,followers_count,has_mobile,has_photo,home_town,military,movies,music,nickname,occupation,quotes,relatives,relation,schools,sex,site,status,universities"
+
+  vk-streaming-api-service:
+    image: artarkatesoft/art-vk-streaming-api
+    ports:
+      - '8091:8080'
+    environment:
+      "logging.level.net.shyshkin": debug
+      VK_APP_ID: ${VK_APP_ID}
+      VK_APP_ACCESS_TOKEN: ${VK_APP_ACCESS_TOKEN}
