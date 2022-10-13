@@ -1,6 +1,10 @@
 server:
   port: 8091
 
+logging:
+  level:
+    net.shyshkin: debug
+
 app:
   vk-streaming-api:
     app-id: ${VK_APP_ID}
