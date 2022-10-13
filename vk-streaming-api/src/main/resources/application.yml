@@ -1,2 +1,7 @@
 server:
   port: 8091
+
+app:
+  vk-streaming-api:
+    app-id: ${VK_APP_ID}
+    client-access-token: ${VK_APP_ACCESS_TOKEN}
