@@ -17,6 +17,7 @@
     <modules>
         <module>site-crawler</module>
         <module>vk-rest-api</module>
+        <module>vk-streaming-api</module>
     </modules>
     <properties>
         <java.version>11</java.version>
@@ -27,6 +28,7 @@
         <docker.image.name>art-${project.artifactId}</docker.image.name>
         <spring.boot.version>2.7.4</spring.boot.version>
         <testcontainers.version>1.17.3</testcontainers.version>
+        <vk-api-sdk.version>1.0.14</vk-api-sdk.version>
     </properties>
 
     <dependencyManagement>
@@ -37,6 +39,11 @@
                 <version>${testcontainers.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.vk.api</groupId>
+                <artifactId>sdk</artifactId>
+                <version>${vk-api-sdk.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
