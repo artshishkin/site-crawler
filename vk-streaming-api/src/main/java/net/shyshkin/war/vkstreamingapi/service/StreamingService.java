@@ -12,6 +12,9 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
@@ -30,8 +33,10 @@ public class StreamingService {
             @Override
             public void handle(StreamingCallbackMessage message) {
                 log.debug("Message received: {}", message);
+                ZonedDateTime createdAt = ZonedDateTime.ofInstant(Instant.ofEpochSecond(message.getEvent().getCreationTime()), ZoneId.systemDefault());
                 var eventIndex = StreamingEventIndex.builder()
                         .event(message.getEvent())
+                        .createdAt(createdAt)
                         .build();
                 repository.save(eventIndex).subscribe();
             }
