@@ -8,10 +8,60 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "tag": "2",
+  "tag": "die",
   "value": "погиб"
 }
 
+### Create complex rule 1
+POST {{host}}/rules
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tag": "die_spec_operation",
+  "value": "погиб спецоперация"
+}
+
+### Create complex rule 2
+POST {{host}}/rules
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tag": "killed_spec_operation",
+  "value": "убит спецоперация"
+}
+
+### Create complex rule 3
+POST {{host}}/rules
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tag": "die_war_ukraine",
+  "value": "погиб война Украина"
+}
+
+### Create complex rule 4
+POST {{host}}/rules
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tag": "killed_war_ukraine",
+  "value": "убит война Украина"
+}
+
+### Create complex rule 5
+POST {{host}}/rules
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tag": "die_wo_disease",
+  "value": "погиб -заболевание"
+}
+
 ### Delete rule by tag
-DELETE {{host}}/rules/1
+DELETE {{host}}/rules/2
 Accept: application/json
