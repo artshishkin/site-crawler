@@ -6,6 +6,8 @@ import com.vk.api.sdk.streaming.clients.actors.StreamingActor;
 import com.vk.api.sdk.streaming.objects.StreamingCallbackMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.shyshkin.war.vkstreamingapi.model.StreamingEventIndex;
+import net.shyshkin.war.vkstreamingapi.repository.StreamingEventRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class StreamingService {
 
     private final VkStreamingApiClient streamingClient;
     private final StreamingActor streamingActor;
+    private final StreamingEventRepository repository;
 
     @EventListener
     public void startStreaming(ApplicationReadyEvent event) throws ExecutionException, InterruptedException {
@@ -27,6 +30,10 @@ public class StreamingService {
             @Override
             public void handle(StreamingCallbackMessage message) {
                 log.debug("Message received: {}", message);
+                var eventIndex = StreamingEventIndex.builder()
+                        .event(message.getEvent())
+                        .build();
+                repository.save(eventIndex).subscribe();
             }
         }).execute();
     }
