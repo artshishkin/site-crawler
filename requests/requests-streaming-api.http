@@ -1,0 +1,17 @@
+### Get rules
+GET {{host}}/rules
+Accept: application/json
+
+### Create new rule
+POST {{host}}/rules
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tag": "2",
+  "value": "погиб"
+}
+
+### Delete rule by tag
+DELETE {{host}}/rules/1
+Accept: application/json

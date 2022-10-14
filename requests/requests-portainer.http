@@ -5,3 +5,7 @@ Accept: application/json
 ### Update vk-rest-api service
 POST http://ddos.shyshkin.org:9000/api/webhooks/b678f396-5fba-4715-a7e5-3193385f001e
 Accept: application/json
+
+### Update vk-streaming-api service
+POST http://ddos.shyshkin.org:9000/api/webhooks/c8dcc462-d354-4c54-8e67-0f5d5ecbb91b
+Accept: application/json
