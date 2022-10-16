@@ -65,3 +65,7 @@ Content-Type: application/json
 ### Delete rule by tag
 DELETE {{host}}/rules/2
 Accept: application/json
+
+### Update all events
+POST {{host}}/events
+Accept: text/event-stream

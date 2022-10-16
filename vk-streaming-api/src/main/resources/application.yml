@@ -1,5 +1,9 @@
 server:
   port: 8091
+  error:
+    include-message: always
+    include-stacktrace: always
+    include-exception: true
 
 logging:
   level:
@@ -13,3 +17,5 @@ app:
 spring:
   elasticsearch:
     uris: http://elasticsearch:9200
+    webclient:
+      max-in-memory-size: 10485760
