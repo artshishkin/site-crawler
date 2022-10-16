@@ -25,6 +25,7 @@ public class StreamingService {
     private final VkStreamingApiClient streamingClient;
     private final StreamingActor streamingActor;
     private final StreamingEventRepository repository;
+    private final UpdateService updateService;
 
     @EventListener
     public void startStreaming(ApplicationReadyEvent event) throws ExecutionException, InterruptedException {
@@ -38,7 +39,9 @@ public class StreamingService {
                         .event(message.getEvent())
                         .createdAt(createdAt)
                         .build();
-                repository.save(eventIndex).subscribe();
+                repository.save(eventIndex)
+                        .flatMap(updateService::updateEvent)
+                        .subscribe();
             }
         }).execute();
     }

@@ -1,5 +1,6 @@
 package net.shyshkin.war.vkstreamingapi.model;
 
+import com.vk.api.sdk.objects.wall.responses.GetByIdExtendedResponse;
 import com.vk.api.sdk.streaming.objects.StreamingEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,5 @@ public class StreamingEventIndex {
     @Field(type = FieldType.Date, format = {}, pattern = "uuuu-MM-dd'T'HH:mm:ssZZ")
     private ZonedDateTime createdAt;
     private StreamingEvent event;
-
+    private GetByIdExtendedResponse content;
 }
