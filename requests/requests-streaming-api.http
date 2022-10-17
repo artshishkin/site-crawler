@@ -73,3 +73,11 @@ Accept: text/event-stream
 ### Delete event
 DELETE {{host}}/events/AOgc5YMBedNxAx5NinJj
 Accept: application/json
+
+### Search events - application/json
+GET {{host}}/events/search?text=Лермонтов
+Accept: application/json
+
+### Search events - text/event-stream
+GET {{host}}/events/search?text=Лермонтов
+Accept: text/event-stream

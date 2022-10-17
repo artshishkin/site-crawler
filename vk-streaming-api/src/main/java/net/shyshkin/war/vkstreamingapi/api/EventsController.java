@@ -32,4 +32,9 @@ public class EventsController {
         return eventsService.deleteEvent(id);
     }
 
+    @GetMapping("search")
+    public Flux<String> searchEvents(@RequestParam("text") String searchText) {
+        return eventsService.getEventIdsWithText(searchText);
+    }
+
 }

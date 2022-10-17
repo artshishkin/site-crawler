@@ -182,3 +182,36 @@ Accept: application/json
     }
   }
 }
+
+### Return only Ids
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "from": 0,
+  "size": 20,
+  "stored_fields": [],
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "event.text": "Лермонтов"
+          }
+        },
+        {
+          "match": {
+            "content.items.text": "Лермонтов"
+          }
+        },
+        {
+          "match": {
+            "content.items.copyHistory.text": "Лермонтов"
+          }
+        }
+      ]
+    }
+  }
+}
+

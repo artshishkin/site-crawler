@@ -8,6 +8,8 @@ server:
 logging:
   level:
     net.shyshkin: debug
+#    "org.springframework.web.reactive.function.client": debug
+    "org.springframework.data.elasticsearch.core": debug
 
 app:
   vk-streaming-api:

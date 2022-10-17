@@ -45,8 +45,13 @@ public class EventsService {
                 .flatMap(repository::save);
     }
 
-    public Mono<Void> deleteEvent(String eventId){
+    public Mono<Void> deleteEvent(String eventId) {
         return repository.deleteById(eventId);
+    }
+
+    public Flux<String> getEventIdsWithText(String searchText) {
+        return repository.findEventsWithText(searchText)
+                .map(StreamingEventIndex::getId);
     }
 
 }
