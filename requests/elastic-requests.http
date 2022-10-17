@@ -1,0 +1,184 @@
+### Get Elasticsearch home endpoint
+GET {{elastic_host}}
+Accept: application/json
+
+### Get Elasticsearch License
+GET {{elastic_host}}/_xpack/license
+Accept: application/json
+
+### Search everything
+GET {{elastic_host}}/streaming-event/_search
+Accept: application/json
+
+### Get document with id = 1
+GET {{elastic_host}}/streaming-event/_doc/1
+Accept: application/json
+
+### Search for document (Get data with id)
+GET {{elastic_host}}/streaming-event/_search?q=id:1
+Accept: application/json
+
+### Specify size in query
+GET {{elastic_host}}/streaming-event/_search?size=100
+Accept: application/json
+
+### Get data with event.text = погиб
+GET {{elastic_host}}/streaming-event/_search?q=event.text:погиб&size=10
+Accept: application/json
+
+### Term Query - Returns documents that contain an exact term in a provided field (not recommended to text field)
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": {
+    "term": {
+      "event.text": "погиб"
+    }
+  }
+}
+
+### Match Query - Returns documents that match a provided text, number, date or boolean value (recommended to text field)
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": {
+    "match": {
+      "event.text": "убит"
+    }
+  }
+}
+
+### Term Query by Keywords - keyword saves the whole text instead of analizing it - exact term
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": {
+    "term": {
+      "event.text.keyword": "убит"
+    }
+  }
+}
+
+### Wildcard Query - Returns documents that contain terms matching a wildcard pattern.
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": {
+    "wildcard": {
+      "event.text": "погиб*"
+    }
+  }
+}
+
+### Query String Type - Use DSL Query inside query. Analyses input.
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": {
+    "query_string": {
+      "query": "event.text:погиб*"
+    }
+  }
+}
+
+### Complex Queries - must=AND, should=OR
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "from": 0,
+  "size": 20,
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "match": {
+            "event.text": "Лермонтов"
+          }
+        },
+        {
+          "match": {
+            "content.items.text": "Лермонтов"
+          }
+        },
+        {
+          "match": {
+            "content.items.copyHistory.text": "Лермонтов"
+          }
+        }
+      ]
+    }
+  }
+}
+
+### Searching for events that have content.items.copyHistory.text
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "from": 0,
+  "size": 20,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "exists": {
+            "field": "content.items.copyHistory.text"
+          }
+        }
+      ]
+    }
+  }
+}
+
+### Searching for event that does not have content.items.copyHistory.text
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "from": 0,
+  "size": 20,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "content.items.copyHistory.text"
+          }
+        }
+      ]
+    }
+  }
+}
+
+### Searching for events using script
+POST {{elastic_host}}/streaming-event/_search
+Content-Type: application/json
+Accept: application/json
+
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "script": {
+          "script": {
+            "source": "doc['event.text.keyword'].toString().toLowerCase().contains('погибла')"
+          }
+        }
+      }
+    }
+  }
+}
