@@ -69,3 +69,7 @@ Accept: application/json
 ### Update all events
 POST {{host}}/events
 Accept: text/event-stream
+
+### Delete event
+DELETE {{host}}/events/AOgc5YMBedNxAx5NinJj
+Accept: application/json

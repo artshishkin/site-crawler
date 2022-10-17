@@ -11,7 +11,7 @@ import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateService {
+public class EventsService {
 
     private final StreamingEventRepository repository;
     private final ContentService contentService;
@@ -43,6 +43,10 @@ public class UpdateService {
                         .thenReturn(streamingEventIndex)
                 )
                 .flatMap(repository::save);
+    }
+
+    public Mono<Void> deleteEvent(String eventId){
+        return repository.deleteById(eventId);
     }
 
 }
