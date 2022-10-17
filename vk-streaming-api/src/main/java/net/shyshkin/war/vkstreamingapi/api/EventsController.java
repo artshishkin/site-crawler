@@ -37,4 +37,9 @@ public class EventsController {
         return eventsService.getEventIdsWithText(searchText);
     }
 
+    @DeleteMapping("search")
+    public Flux<String> deleteEvents(@RequestParam("text") String searchText) {
+        return eventsService.deleteEventsWithText(searchText);
+    }
+
 }

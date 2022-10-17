@@ -54,4 +54,10 @@ public class EventsService {
                 .map(StreamingEventIndex::getId);
     }
 
+    public Flux<String> deleteEventsWithText(String searchText) {
+        return repository.findEventsWithText(searchText)
+                .map(StreamingEventIndex::getId)
+                .flatMap(id -> repository.deleteById(id).thenReturn(id));
+    }
+
 }

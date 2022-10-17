@@ -79,5 +79,9 @@ GET {{host}}/events/search?text=Лермонтов
 Accept: application/json
 
 ### Search events - text/event-stream
-GET {{host}}/events/search?text=Лермонтов
+GET {{host}}/events/search?text=Моторола
+Accept: text/event-stream
+
+### Delete events by text
+DELETE {{host}}/events/search?text=Моторола
 Accept: text/event-stream
